@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "888583800618",
+    "project_id": "brickorder-aff03",
+    "storage_bucket": "brickorder-aff03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888583800618:android:6dcece3ff44e4b60a4c053",
+        "android_client_info": {
+          "package_name": "com.example.bricorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888583800618-r6o9ussefadu1heu7e5n5kerevo74cmt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bricorder",
+            "certificate_hash": "bcb1d5247fb90fe7f4d0a64e4c1e7a0c42b0d518"
+          }
+        },
+        {
+          "client_id": "888583800618-0ejf9agu60slpdp2cur5s1j2bcmr56b4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlA33JCI1hPaHxx5zEgeQe62qoBiRdUGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888583800618-0ejf9agu60slpdp2cur5s1j2bcmr56b4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "888583800618-r37ldp81vtoakdlrsj9pekjg57pv7qth.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.robiv2007.Brickorder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
