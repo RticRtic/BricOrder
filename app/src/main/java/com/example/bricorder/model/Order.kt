@@ -11,6 +11,8 @@ import com.example.bricorder.ui.theme.Violet
 @Entity
 data class Order(
     @PrimaryKey val id: Int,
+    val title: String,
+    val description: String,
     val client: Client,
     val constructor: Constructor,
     val worker: Worker,
