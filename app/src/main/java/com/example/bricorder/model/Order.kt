@@ -13,6 +13,8 @@ data class Order(
     @PrimaryKey val id: Int,
     val title: String,
     val description: String,
+    val timestamp: Long,
+    val color: Int,
     val client: Client,
     val constructor: Constructor,
     val worker: Worker,
