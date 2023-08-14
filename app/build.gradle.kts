@@ -87,5 +87,8 @@ dependencies {
     //Gson
     implementation("com.google.code.gson:gson:2.9.0")
 
+    //Navigation
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+
 
 }
