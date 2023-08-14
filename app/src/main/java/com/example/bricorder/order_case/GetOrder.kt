@@ -5,7 +5,7 @@ import com.example.bricorder.model.Order
 
 class GetOrder(private val repository: LocalRepository) {
 
-        suspend fun invoke(id: Int): Order? {
+        suspend operator fun invoke(id: Int): Order? {
             return repository.getOrderById(id)
         }
 }
