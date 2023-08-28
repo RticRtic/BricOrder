@@ -9,7 +9,7 @@ import com.example.bricorder.model.Order
 import com.example.bricorder.model.WorkerTypeConverter
 
 
-@Database(entities = [Order::class], version = 1)
+@Database(entities = [Order::class], version = 1, exportSchema = false)
 @TypeConverters(ClientTypeConverter::class, WorkerTypeConverter::class, ConstructorTypeConverter::class)
 abstract class OrderDataBase: RoomDatabase() {
     abstract fun orderDao(): OrderDao

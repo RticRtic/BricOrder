@@ -2,11 +2,11 @@ package com.example.bricorder.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.bricorder.ui.theme.BabyBlue
-import com.example.bricorder.ui.theme.LightGreen
-import com.example.bricorder.ui.theme.RedOrange
-import com.example.bricorder.ui.theme.RedPink
-import com.example.bricorder.ui.theme.Violet
+import com.example.bricorder.ui.BabyBlue
+import com.example.bricorder.ui.LightGreen
+import com.example.bricorder.ui.RedOrange
+import com.example.bricorder.ui.RedPink
+import com.example.bricorder.ui.Violet
 
 @Entity
 data class Order(

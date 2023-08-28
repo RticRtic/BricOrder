@@ -1,4 +1,4 @@
-package com.example.bricorder.ui.theme
+package com.example.bricorder.ui
 
 import android.app.Activity
 import android.os.Build

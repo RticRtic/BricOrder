@@ -32,8 +32,8 @@ class OrdersViewModel @Inject constructor(
 
     fun onEvent(event: OrdersEvent) {
         when(event) {
-            is OrdersEvent.OrderDirection -> {
-                if (state.value.orderDirection::class == state.value.orderDirection::class && state.value.orderDirection.orderType == state.value.orderDirection.orderType) {
+            is OrdersEvent.Direction -> {
+                if (state.value.orderDirection::class == event.orderDirection::class && state.value.orderDirection.orderType == event.orderDirection.orderType) {
                     return
                 }
                 getOrders(state.value.orderDirection)

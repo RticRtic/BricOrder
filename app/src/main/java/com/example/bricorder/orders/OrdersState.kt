@@ -7,4 +7,5 @@ import com.example.bricorder.order_case.util.OrderType
 data class OrdersState(
     val orders: List<Order> = emptyList(),
     val orderDirection: OrderDirection = OrderDirection.Date(OrderType.Descending),
+    val isOrderSectionVisible: Boolean = false
 )
