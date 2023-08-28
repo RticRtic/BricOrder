@@ -30,26 +30,26 @@ class MainActivity : ComponentActivity() {
                 composable(route = View.OrderScreen.route) {
                     OrderScreen(navController = navController)
                 }
-//                composable(
-//                    route = View.AddEditOrderScreen.route +
-//                            "?orderId={orderId}&orderName={orderName}",
-//                    arguments = listOf(
-//                        navArgument(
-//                            name = "orderId") {
-//                            defaultValue = -1
-//                            type = NavType.IntType
-//                        },
-//                        navArgument("orderName") {
-//                            defaultValue = ""
-//                            type = NavType.StringType
-//                        }
-//                    )
-//                ) {
-//                    val orderId = it.arguments?.getInt("orderId") ?: -1
-//                    val orderName = it.arguments?.getString("orderName") ?: ""
-//                    //AddEditOrderScreen(navController = navController, orderId = orderId, orderName = orderName)
-//                }
+                composable(
+                    route = View.AddEditOrderScreen.route + "?orderID={orderID}${"&orderColor={orderColor}"}",
+                    arguments = listOf(
+                        navArgument(
+                            name = "orderID"
+                        ) {
+                            type = NavType.IntType
+                            defaultValue = -1
+                        },
+                        navArgument(
+                            name = "orderColor"
+                        ) {
+                            type = NavType.IntType
+                            defaultValue = -1
+                        },
+                    )
+                ) {
+                    val color = it.arguments?.getInt("orderColor") ?: -1
 
+                }
             }
         }
     }
