@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
-    private val orderUseCases: OrderUseCases
+    private val orderUseCases: OrderUseCases,
 
 ) : ViewModel() {
     private val _state = mutableStateOf(OrdersState())

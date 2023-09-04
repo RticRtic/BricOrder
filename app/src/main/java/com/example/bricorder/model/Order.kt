@@ -15,14 +15,14 @@ data class Order(
     val description: String,
     val timestamp: Long,
     val color: Int,
-    val client: Client,
-    val constructor: Constructor,
-    val worker: Worker,
-    val date: String,
-    val status: String,
-    val address: String,
+//    val client: Client,
+//    val constructor: Constructor,
+//    val worker: Worker,
+//    val date: String,
+//    val status: String,
+//    val address: String,
 
-) {
+    ) {
     companion object {
         val orderColors = listOf(
             RedOrange,
@@ -35,4 +35,4 @@ data class Order(
     }
 }
 
-class InvalidOrderException(message: String): Exception(message)
+class InvalidOrderException(message: String) : Exception(message)
