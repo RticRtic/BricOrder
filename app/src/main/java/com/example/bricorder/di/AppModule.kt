@@ -35,7 +35,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOrderRepository(db: OrderDataBase): LocalRepository {
-        return LocalRepositoryImpl(db.orderDao())
+        return LocalRepositoryImpl(db.orderDao)
     }
 
     @Provides

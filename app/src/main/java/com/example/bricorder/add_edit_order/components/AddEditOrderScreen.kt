@@ -136,12 +136,12 @@ fun AddEditOrderScreen(
                 text = orderDescription.text,
                 hint = orderDescription.hint,
                 onValueChange = {
-                    viewModel.onEvent(AddEditOrderEvent.EnteredTitle(it))
+                    viewModel.onEvent(AddEditOrderEvent.EnteredDescription(it))
                 },
                 onFocusChange = {
-                    viewModel.onEvent(AddEditOrderEvent.ChangeTitleFocus(it))
+                    viewModel.onEvent(AddEditOrderEvent.ChangeDescriptionFocus(it))
                 },
-                isHintVisible = titleState.isHintVisible,
+                isHintVisible = orderDescription.isHintVisible,
                 singleLine = true,
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier.fillMaxWidth()

@@ -19,7 +19,7 @@ import javax.inject.Inject
 class OrdersViewModel @Inject constructor(
     private val orderUseCases: OrderUseCases,
 
-) : ViewModel() {
+    ) : ViewModel() {
     private val _state = mutableStateOf(OrdersState())
     val state: State<OrdersState> = _state
 
@@ -31,13 +31,14 @@ class OrdersViewModel @Inject constructor(
     }
 
     fun onEvent(event: OrdersEvent) {
-        when(event) {
+        when (event) {
             is OrdersEvent.Direction -> {
                 if (state.value.orderDirection::class == event.orderDirection::class && state.value.orderDirection.orderType == event.orderDirection.orderType) {
                     return
                 }
-                getOrders(state.value.orderDirection)
+                getOrders(event.orderDirection)
             }
+
             is OrdersEvent.Delete -> {
                 viewModelScope.launch {
                     orderUseCases.deleteOrder(event.order)
@@ -48,12 +49,13 @@ class OrdersViewModel @Inject constructor(
             is OrdersEvent.RestoreOrder -> {
                 viewModelScope.launch {
                     orderUseCases.addOrder(recentlyDeletedOrder ?: return@launch)
+                    recentlyDeletedOrder = null
                 }
-                recentlyDeletedOrder = null
             }
-
-            else -> {
-                return
+            is OrdersEvent.ToggleOrderSection -> {
+                _state.value = state.value.copy(
+                    isOrderSectionVisible = !state.value.isOrderSectionVisible
+                )
             }
         }
 

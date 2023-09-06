@@ -8,7 +8,7 @@ class LocalRepositoryImpl(
     private val orderDao: OrderDao
 ): LocalRepository {
     override fun getOrders(): Flow<List<Order>> {
-        return orderDao.getOrder()
+        return orderDao.getOrders()
     }
 
     override suspend fun getOrderById(id: Int): Order? {

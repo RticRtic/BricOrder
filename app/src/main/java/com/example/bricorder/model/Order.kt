@@ -10,7 +10,7 @@ import com.example.bricorder.ui.Violet
 
 @Entity
 data class Order(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val id: Int? = null,
     val title: String,
     val description: String,
     val timestamp: Long,

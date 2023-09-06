@@ -6,7 +6,6 @@ import com.example.bricorder.model.Order
 
 class AddOrder(private val repository: LocalRepository) {
         suspend operator fun invoke(order: Order) {
-            repository.insertOrder(order)
             if (order.title.isBlank()) {
                 throw InvalidOrderException("The title of the order can't be empty.")
             }

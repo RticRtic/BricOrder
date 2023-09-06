@@ -68,6 +68,7 @@ fun OrderScreen(
             }
         },
         scaffoldState = scaffoldState
+
     ) {
         Column(
             modifier = Modifier
@@ -120,7 +121,7 @@ fun OrderScreen(
                             .clickable {
                                 navController.navigate(
                                     View.AddEditOrderScreen.route +
-                                            "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}"
+                                            "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}"
                                 )
                             },
                         onDelete = {

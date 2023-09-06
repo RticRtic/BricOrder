@@ -9,10 +9,12 @@ import com.example.bricorder.model.Order
 import com.example.bricorder.model.WorkerTypeConverter
 
 
-@Database(entities = [Order::class], version = 1, exportSchema = false)
+@Database(entities = [Order::class], version = 1)
 @TypeConverters(ClientTypeConverter::class, WorkerTypeConverter::class, ConstructorTypeConverter::class)
+
+
 abstract class OrderDataBase: RoomDatabase() {
-    abstract fun orderDao(): OrderDao
+    abstract val orderDao: OrderDao
 
     companion object {
         const val DATABASE_NAME = "order_db"
