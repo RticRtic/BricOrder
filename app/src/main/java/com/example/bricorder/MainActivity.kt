@@ -37,10 +37,10 @@ class MainActivity : ComponentActivity() {
                             OrderScreen(navController = navController)
                         }
                         composable(
-                            route = View.AddEditOrderScreen.route + "?orderID={orderID}${"&orderColor={orderColor}"}",
+                            route = View.AddEditOrderScreen.route + "?orderId={orderId}${"&orderColor={orderColor}"}",
                             arguments = listOf(
                                 navArgument(
-                                    name = "orderID"
+                                    name = "orderId"
                                 ) {
                                     type = NavType.IntType
                                     defaultValue = -1

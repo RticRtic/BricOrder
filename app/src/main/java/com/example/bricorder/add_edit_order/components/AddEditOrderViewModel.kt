@@ -96,7 +96,7 @@ class AddEditOrderViewModel @Inject constructor(
                                 description = orderDescription.value.text,
                                 timestamp = System.currentTimeMillis(),
                                 color = orderColor.value,
-                                id = currentOrderId ?: 0
+                                id = currentOrderId
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveOrder)

@@ -19,7 +19,7 @@ interface OrderDao {
     suspend fun getOrderById(id: Int): Order?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(order: Order)
+    suspend fun insertOrder(order: Order)
 
     @Delete
     suspend fun delete(order: Order)
