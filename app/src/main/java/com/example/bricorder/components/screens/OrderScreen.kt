@@ -2,6 +2,7 @@ package com.example.bricorder.components.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -67,6 +68,7 @@ fun OrderScreen(
             }
         },
         scaffoldState = scaffoldState
+
     ) {
         Column(
             modifier = Modifier
@@ -106,6 +108,7 @@ fun OrderScreen(
                     onOrderChange = {
                         viewModel.onEvent(OrdersEvent.Direction(it))
                     }
+
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -118,7 +121,7 @@ fun OrderScreen(
                             .clickable {
                                 navController.navigate(
                                     View.AddEditOrderScreen.route +
-                                            "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}&orderColor=${order.color}"
+                                            "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}"
                                 )
                             },
                         onDelete = {
@@ -137,7 +140,6 @@ fun OrderScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-
         }
     }
 }

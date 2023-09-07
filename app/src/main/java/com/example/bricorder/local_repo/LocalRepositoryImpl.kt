@@ -1,14 +1,13 @@
 package com.example.bricorder.local_repo
 
 import com.example.bricorder.model.Order
-import com.example.bricorder.orders.OrdersEvent
 import kotlinx.coroutines.flow.Flow
 
 class LocalRepositoryImpl(
     private val orderDao: OrderDao
 ): LocalRepository {
     override fun getOrders(): Flow<List<Order>> {
-        return orderDao.getOrder()
+        return orderDao.getOrders()
     }
 
     override suspend fun getOrderById(id: Int): Order? {
@@ -16,7 +15,7 @@ class LocalRepositoryImpl(
     }
 
     override suspend fun insertOrder(order: Order) {
-        orderDao.insert(order)
+        orderDao.insertOrder(order)
     }
 
     override suspend fun delete(order: Order) {
