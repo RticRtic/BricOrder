@@ -15,6 +15,7 @@ data class Order(
     val description: String,
     val timestamp: Long,
     val color: Int,
+    val orderMark: String,
 //    val client: Client,
 //    val constructor: Constructor,
 //    val worker: Worker,

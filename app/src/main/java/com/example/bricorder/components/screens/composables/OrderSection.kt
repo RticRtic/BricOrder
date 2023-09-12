@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.bricorder.model.Order
 import com.example.bricorder.order_case.util.OrderDirection
 import com.example.bricorder.order_case.util.OrderType
-import com.example.bricorder.orders.OrdersEvent
 
 @Composable
 fun OrderSection(

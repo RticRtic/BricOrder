@@ -1,6 +1,5 @@
 package com.example.bricorder.components.screens.composables
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,9 +7,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.bricorder.model.Order
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -27,6 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.text.style.TextOverflow
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun OrderItem(
@@ -36,7 +40,7 @@ fun OrderItem(
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit
 
-    ) {
+) {
     Box(
         modifier = modifier,
     ) {
@@ -72,19 +76,37 @@ fun OrderItem(
                 .padding(16.dp)
                 .padding(end = 32.dp)
         ) {
-            Text(
-                text = order.title,
-                style = MaterialTheme.typography.h4,
-                color = MaterialTheme.colors.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = order.title,
+                    style = MaterialTheme.typography.h5,
+                    color = MaterialTheme.colors.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(currentTimeMillisToReadableFormat(order.timestamp))
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = order.description,
                 style = MaterialTheme.typography.body1,
                 color = MaterialTheme.colors.onSurface,
                 maxLines = 10,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = order.orderMark,
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onSurface,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -100,3 +122,9 @@ fun OrderItem(
         }
     }
 }
+
+private fun currentTimeMillisToReadableFormat(currentTimeMillis: Long): String {
+    val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+    return format.format(currentTimeMillis)
+}
+
