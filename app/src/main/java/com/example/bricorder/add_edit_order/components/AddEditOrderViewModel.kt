@@ -42,7 +42,6 @@ class AddEditOrderViewModel @Inject constructor(
     private val _orderColor = mutableIntStateOf(Order.orderColors[startColor].toArgb())
     val orderColor: State<Int> = _orderColor
 
-
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -112,6 +111,7 @@ class AddEditOrderViewModel @Inject constructor(
             is AddEditOrderEvent.ChangeColor -> {
                 _orderColor.intValue = event.color
             }
+
             is AddEditOrderEvent.SaveOrder -> {
                 viewModelScope.launch {
                     try {
@@ -123,6 +123,7 @@ class AddEditOrderViewModel @Inject constructor(
                                 orderMark = orderMark.value.title,
                                 timestamp = System.currentTimeMillis(),
                                 color = orderColor.value,
+                                onGoing = true
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveOrder)

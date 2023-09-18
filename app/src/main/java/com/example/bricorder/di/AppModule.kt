@@ -10,6 +10,7 @@ import com.example.bricorder.order_case.DeleteOrder
 import com.example.bricorder.order_case.GetOrder
 import com.example.bricorder.order_case.GetOrders
 import com.example.bricorder.order_case.OrderUseCases
+import com.example.bricorder.order_case.ToggleOngoingColor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +46,8 @@ object AppModule {
             getOrders = GetOrders(repository),
             deleteOrder = DeleteOrder(repository),
             addOrder = AddOrder(repository),
-            getOrder = GetOrder(repository)
+            getOrder = GetOrder(repository),
+            toggleOnGoingColor = ToggleOngoingColor(repository)
         )
     }
 }

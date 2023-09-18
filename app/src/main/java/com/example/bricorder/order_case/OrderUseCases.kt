@@ -5,4 +5,5 @@ data class OrderUseCases(
     val deleteOrder: DeleteOrder,
     val addOrder: AddOrder,
     val getOrder: GetOrder,
+    val toggleOnGoingColor: ToggleOngoingColor,
 )
