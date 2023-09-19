@@ -21,4 +21,8 @@ class LocalRepositoryImpl(
     override suspend fun delete(order: Order) {
         orderDao.delete(order)
     }
+
+    override suspend fun updateOngoingColor(id: Int, onGoing: Boolean) {
+        return orderDao.onGoingColor(id, onGoing)
+    }
 }

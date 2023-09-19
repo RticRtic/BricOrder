@@ -1,5 +1,6 @@
 package com.example.bricorder.components.screens
 
+import OrderItem
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -35,9 +36,10 @@ import com.example.bricorder.orders.OrdersViewModel
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bricorder.components.screens.composables.OrderItem
 import com.example.bricorder.components.screens.composables.OrderSection
 import com.example.bricorder.orders.OrdersEvent
 import kotlinx.coroutines.launch
@@ -135,7 +137,7 @@ fun OrderScreen(
                                     viewModel.onEvent(OrdersEvent.RestoreOrder)
                                 }
                             }
-                        }
+                        },
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }

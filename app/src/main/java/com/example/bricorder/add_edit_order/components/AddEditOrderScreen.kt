@@ -36,7 +36,8 @@ fun AddEditOrderScreen(
     viewModel: AddEditOrderViewModel = hiltViewModel()
 ) {
     val titleState = viewModel.orderTitle.value
-    val orderDescription = viewModel.orderDescription.value
+    val orderDescriptionState = viewModel.orderDescription.value
+    val orderMarkState = viewModel.orderMark.value
 
     val scaffoldState = rememberScaffoldState()
 
@@ -118,8 +119,8 @@ fun AddEditOrderScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
-                text = titleState.text,
-                hint = titleState.hint,
+                text = titleState.title,
+                hint = titleState.description,
                 onValueChange = {
                     viewModel.onEvent(AddEditOrderEvent.EnteredTitle(it))
                 },
@@ -133,15 +134,30 @@ fun AddEditOrderScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
-                text = orderDescription.text,
-                hint = orderDescription.hint,
+                text = orderDescriptionState.title,
+                hint = orderDescriptionState.description,
                 onValueChange = {
                     viewModel.onEvent(AddEditOrderEvent.EnteredDescription(it))
                 },
                 onFocusChange = {
                     viewModel.onEvent(AddEditOrderEvent.ChangeDescriptionFocus(it))
                 },
-                isHintVisible = orderDescription.isHintVisible,
+                isHintVisible = orderDescriptionState.isHintVisible,
+                singleLine = true,
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TransparentHintTextField(
+                text = orderMarkState.title,
+                hint = orderMarkState.description,
+                onValueChange = {
+                    viewModel.onEvent(AddEditOrderEvent.EnteredMarking(it))
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeMarkingFocus(it))
+                },
+                isHintVisible = orderMarkState.isHintVisible,
                 singleLine = true,
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier.fillMaxWidth()

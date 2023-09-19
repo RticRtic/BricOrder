@@ -1,5 +1,6 @@
 package com.example.bricorder.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.bricorder.ui.BabyBlue
@@ -15,11 +16,12 @@ data class Order(
     val description: String,
     val timestamp: Long,
     val color: Int,
+    val orderMark: String,
+    @ColumnInfo(name = "on_going")
+    var onGoing: Boolean,
 //    val client: Client,
 //    val constructor: Constructor,
 //    val worker: Worker,
-//    val date: String,
-//    val status: String,
 //    val address: String,
 
     ) {

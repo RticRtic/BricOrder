@@ -11,4 +11,5 @@ interface LocalRepository {
     suspend fun insertOrder(order: Order)
     suspend fun delete(order: Order)
 
+    suspend fun updateOngoingColor(id: Int, onGoing: Boolean)
 }
