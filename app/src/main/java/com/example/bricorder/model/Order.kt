@@ -15,7 +15,6 @@ data class Order(
     val title: String,
     val description: String,
     val timestamp: Long,
-    @ColumnInfo(name = "color")
     val color: Int,
     val orderMark: String,
     @ColumnInfo(name = "on_going")

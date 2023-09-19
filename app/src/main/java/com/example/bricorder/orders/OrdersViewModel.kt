@@ -67,7 +67,6 @@ class OrdersViewModel @Inject constructor(
                 viewModelScope.launch {
                     event.order.id?.let { orderUseCases.toggleOnGoingColor(it, state.value.isOnGoing) }
                 }
-//                recentlyDeletedOrder?.onGoing = state.value.isOnGoing
             }
 
         }
