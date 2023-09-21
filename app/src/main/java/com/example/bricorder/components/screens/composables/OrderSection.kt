@@ -27,7 +27,6 @@ fun OrderSection(
                     onOrderChange(OrderDirection.Title(orderDirection.orderType))
                 }
             )
-            Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
                 text = "Date",
                 selected = orderDirection is OrderDirection.Date,
@@ -35,7 +34,6 @@ fun OrderSection(
                     onOrderChange(OrderDirection.Date(orderDirection.orderType))
                 }
             )
-            Spacer(modifier = Modifier.height(8.dp))
             DefaultRadioButton(
                 text = "Color",
                 selected = orderDirection is OrderDirection.Color,
@@ -43,20 +41,28 @@ fun OrderSection(
                     onOrderChange(OrderDirection.Color(orderDirection.orderType))
                 }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+
+            DefaultRadioButton(
+                text = "On Going",
+                selected = orderDirection is OrderDirection.OnGoing,
+                onSelect = {
+                    onOrderChange(OrderDirection.OnGoing(orderDirection.orderType))
+                }
+            )
+            Spacer(modifier = Modifier.width(20.dp))
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 DefaultRadioButton(
-                    text = "Ascending",
+                    text = "Top",
                     selected = orderDirection.orderType is OrderType.Ascending,
                     onSelect = {
                         onOrderChange(orderDirection.copy(OrderType.Ascending))
                     }
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(2.dp))
                 DefaultRadioButton(
-                    text = "Descending",
+                    text = "Bottom",
                     selected = orderDirection.orderType is OrderType.Descending,
                     onSelect = {
                         onOrderChange(orderDirection.copy(OrderType.Descending))

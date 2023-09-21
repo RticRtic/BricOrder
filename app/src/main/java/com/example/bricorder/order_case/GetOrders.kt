@@ -17,6 +17,7 @@ class GetOrders(private val repository: LocalRepository) {
                        is OrderDirection.Title -> orders.sortedBy { it.title.lowercase() }
                         is OrderDirection.Date -> orders.sortedBy { it.timestamp }
                         is OrderDirection.Color -> orders.sortedBy { it.color }
+                        is OrderDirection.OnGoing -> orders.sortedBy { it.onGoing }
 
                     }
                 }
@@ -25,6 +26,7 @@ class GetOrders(private val repository: LocalRepository) {
                         is OrderDirection.Title -> orders.sortedByDescending { it.title.lowercase() }
                         is OrderDirection.Date -> orders.sortedByDescending { it.timestamp }
                         is OrderDirection.Color -> orders.sortedByDescending { it.color }
+                        is OrderDirection.OnGoing -> orders.sortedByDescending { it.onGoing }
                     }
                 }
             }
