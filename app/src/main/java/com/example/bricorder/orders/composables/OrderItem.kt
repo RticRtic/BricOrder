@@ -1,3 +1,4 @@
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -36,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bricorder.orders.OrdersEvent
@@ -50,12 +55,11 @@ fun OrderItem(
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
-    viewModel: OrdersViewModel = hiltViewModel(),
-
+    onGoing: () -> Unit,
     ) {
 
     Box(
-        modifier = modifier,
+        modifier = modifier
     ) {
         Canvas(
             modifier = Modifier.matchParentSize()
@@ -75,11 +79,16 @@ fun OrderItem(
                 )
                 drawRoundRect(
                     color = Color(
-                        androidx.core.graphics.ColorUtils.blendARGB(order.color, 0x000000, 0.2f)
+                        androidx.core.graphics.ColorUtils.blendARGB(
+                            if (order.onGoing) Color.Transparent.toArgb() else Color.Red.toArgb(),
+                            Color.Transparent.toArgb(),
+                            0.3f
+                        )
                     ),
                     topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
                     size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),
                     cornerRadius = CornerRadius(cornerRadius.toPx())
+
                 )
             }
         }
@@ -89,41 +98,45 @@ fun OrderItem(
                 .padding(16.dp)
                 .padding(end = 32.dp)
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = order.title,
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.h6,
                     color = MaterialTheme.colors.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 
-                Text(currentTimeMillisToReadableFormat(order.timestamp))
+                Row {
+                    Box(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .shadow(15.dp, CircleShape)
+                            .clip(CircleShape)
+                            .background(if (order.onGoing) Color.Green else Color.Red)
+                            .border(
+                                width = 3.dp,
+                                color = Color.Transparent,
+                                shape = CircleShape
+                            )
+                            .clickable {
+                                onGoing()
+                            }
 
-                Box(
-                    modifier = Modifier
-                        .size(20.dp)
-                        .shadow(15.dp, CircleShape)
-                        .clip(CircleShape)
-                        .background(if (order.onGoing) Color.Green else Color.Red)
-                        .border(
-                            width = 3.dp,
-                            color = Color.Transparent,
-                            shape = CircleShape
-                        )
-                        .clickable {
-                            viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
-                            order.onGoing = viewModel.state.value.isOnGoing
-                        }
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        if (order.onGoing) "On Going" else "Cancelled",
+                        style = TextStyle(fontFamily = FontFamily.Serif)
+                    )
+                }
 
-                )
             }
+            Spacer(modifier = Modifier.height(2.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = order.description,
                 style = MaterialTheme.typography.body1,
@@ -133,17 +146,25 @@ fun OrderItem(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = order.orderMark,
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
         }
-        IconButton(
+
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 8.dp, bottom = 2.dp),
+            text = "Mark: " + order.orderMark,
+            style = MaterialTheme.typography.subtitle2
+        )
+        Text(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(end = 30.dp, bottom = 2.dp),
+            text = currentTimeMillisToReadableFormat(order.timestamp),
+            style = MaterialTheme.typography.subtitle2,
+        )
+        if (!order.onGoing) IconButton(
+            modifier = Modifier.align(Alignment.BottomEnd),
             onClick = onDelete,
-            modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
@@ -155,6 +176,6 @@ fun OrderItem(
 }
 
 private fun currentTimeMillisToReadableFormat(currentTimeMillis: Long): String {
-    val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+    val format = SimpleDateFormat("dd/MM/yyyy ", Locale.getDefault())
     return format.format(currentTimeMillis)
 }
