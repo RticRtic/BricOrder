@@ -55,8 +55,7 @@ fun OrderItem(
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
-    viewModel: OrdersViewModel = hiltViewModel(),
-
+    onGoing: () -> Unit,
     ) {
 
     Box(
@@ -124,8 +123,7 @@ fun OrderItem(
                                 shape = CircleShape
                             )
                             .clickable {
-                                viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
-                                order.onGoing = viewModel.state.value.isOnGoing
+                                onGoing()
                             }
 
                     )
@@ -159,22 +157,21 @@ fun OrderItem(
         )
         Text(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 8.dp, bottom = 2.dp),
+                .align(Alignment.TopEnd)
+                .padding(end = 30.dp, bottom = 2.dp),
             text = currentTimeMillisToReadableFormat(order.timestamp),
             style = MaterialTheme.typography.subtitle2,
         )
-
-//        IconButton(
-//            onClick = onDelete,
-//            modifier = Modifier.align(Alignment.BottomEnd)
-//        ) {
-//            Icon(
-//                imageVector = Icons.Default.Delete,
-//                contentDescription = "Delete order",
-//                tint = MaterialTheme.colors.onSurface
-//            )
-//        }
+        if (!order.onGoing) IconButton(
+            modifier = Modifier.align(Alignment.BottomEnd),
+            onClick = onDelete,
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete order",
+                tint = MaterialTheme.colors.onSurface
+            )
+        }
     }
 }
 

@@ -1,9 +1,8 @@
-package com.example.bricorder.components.screens
+package com.example.bricorder.orders.composables
 
 import OrderItem
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -36,10 +35,9 @@ import com.example.bricorder.orders.OrdersViewModel
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bricorder.components.screens.View
 import com.example.bricorder.components.screens.composables.OrderSection
 import com.example.bricorder.orders.OrdersEvent
 import kotlinx.coroutines.launch
@@ -130,7 +128,7 @@ fun OrderScreen(
                             viewModel.onEvent(OrdersEvent.Delete(order))
                             scope.launch {
                                 val result = scaffoldState.snackbarHostState.showSnackbar(
-                                    message = "Order Deleted",
+                                    message = "Order ${order.title} deleted",
                                     actionLabel = "Undo"
                                 )
                                 if (result == SnackbarResult.ActionPerformed) {
@@ -138,6 +136,10 @@ fun OrderScreen(
                                 }
                             }
                         },
+                        onGoing = {
+                            viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
+                            order.onGoing = viewModel.state.value.isOnGoing
+                        }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
