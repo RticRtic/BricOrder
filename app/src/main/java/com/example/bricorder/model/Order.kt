@@ -19,8 +19,8 @@ data class Order(
     val orderMark: String,
     @ColumnInfo(name = "on_going")
     var onGoing: Boolean,
-//    val client: Client,
-//    val constructor: Constructor,
+    val client: Client? = null,
+//    val constructor: Constructor?,
 //    val worker: Worker,
 //    val address: String,
 

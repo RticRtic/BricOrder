@@ -38,6 +38,7 @@ fun AddEditOrderScreen(
     val titleState = viewModel.orderTitle.value
     val orderDescriptionState = viewModel.orderDescription.value
     val orderMarkState = viewModel.orderMark.value
+    val clientState = viewModel.client.value
 
     val scaffoldState = rememberScaffoldState()
 
@@ -50,12 +51,13 @@ fun AddEditOrderScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is AddEditOrderViewModel.UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
+
                 is AddEditOrderViewModel.UiEvent.SaveOrder -> {
                     navController.navigateUp()
                 }
@@ -161,6 +163,19 @@ fun AddEditOrderScreen(
                 singleLine = true,
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            TransparentHintTextField(
+                text = clientState.title,
+                hint = clientState.description,
+                isHintVisible = clientState.isHintVisible,
+                onValueChange = {
+                    viewModel.onEvent(AddEditOrderEvent.EnteredClient(it))
+                },
+
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))
+                },
             )
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bricorder.model.Client
 import com.example.bricorder.model.InvalidOrderException
 import com.example.bricorder.model.Order
 import com.example.bricorder.order_case.OrderUseCases
@@ -20,22 +21,37 @@ import kotlinx.coroutines.launch
 class AddEditOrderViewModel @Inject constructor(
     private val orderUseCases: OrderUseCases,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
-    private val _orderTitle = mutableStateOf(OrderTextFieldState(
-        description = "Title"
-    ))
+    private val _orderTitle = mutableStateOf(
+        OrderTextFieldState(
+            description = "Project Name"
+        )
+    )
     val orderTitle: State<OrderTextFieldState> = _orderTitle
 
-    private val _orderDescription = mutableStateOf(OrderTextFieldState(
-        description = "Description"
-    ))
+    private val _orderDescription = mutableStateOf(
+        OrderTextFieldState(
+            description = "Description"
+        )
+    )
     val orderDescription: State<OrderTextFieldState> = _orderDescription
 
-    private val _orderMark = mutableStateOf(OrderTextFieldState(
-        description = "Mark"
-    ))
+    private val _orderMark = mutableStateOf(
+        OrderTextFieldState(
+            description = "Order-Number"
+        )
+    )
     val orderMark: State<OrderTextFieldState> = _orderMark
+
+
+    private val _client = mutableStateOf(
+       OrderTextFieldState(
+           description = "Client Name"
+       )
+    )
+
+    val client: State<OrderTextFieldState> = _client
 
     private val startColor: Int = 0
 
@@ -46,14 +62,16 @@ class AddEditOrderViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentOrderId: Int? = null
+    private var currentClient: Client? = null
 
 
-    init{
+    init {
         savedStateHandle.get<Int>("orderId")?.let { orderId ->
             if (orderId != -1) {
                 viewModelScope.launch {
                     orderUseCases.getOrder(orderId)?.also { order ->
                         currentOrderId = order.id
+
                         _orderTitle.value = orderTitle.value.copy(
                             title = order.title,
                             isHintVisible = false
@@ -66,7 +84,12 @@ class AddEditOrderViewModel @Inject constructor(
                             title = order.orderMark,
                             isHintVisible = false
                         )
+                        _client.value = client.value.copy(
+                            title = order.client?.name ?: "",
+                            isHintVisible = false
+                        )
                         _orderColor.intValue = order.color
+                        currentClient = order.client
                     }
                 }
             }
@@ -74,22 +97,25 @@ class AddEditOrderViewModel @Inject constructor(
     }
 
     fun onEvent(event: AddEditOrderEvent) {
-        when(event) {
+        when (event) {
             is AddEditOrderEvent.EnteredTitle -> {
                 _orderTitle.value = orderTitle.value.copy(
-                   title = event.value
+                    title = event.value
                 )
             }
+
             is AddEditOrderEvent.ChangeTitleFocus -> {
                 _orderTitle.value = orderTitle.value.copy(
                     isHintVisible = !event.focusState.isFocused && orderTitle.value.title.isBlank()
                 )
             }
+
             is AddEditOrderEvent.EnteredDescription -> {
                 _orderDescription.value = orderDescription.value.copy(
                     title = event.value
                 )
             }
+
             is AddEditOrderEvent.ChangeDescriptionFocus -> {
                 _orderDescription.value = orderDescription.value.copy(
                     isHintVisible = !event.focusState.isFocused && orderDescription.value.title.isBlank()
@@ -98,13 +124,26 @@ class AddEditOrderViewModel @Inject constructor(
 
             is AddEditOrderEvent.EnteredMarking -> {
                 _orderMark.value = orderMark.value.copy(
-                   title = event.value
+                    title = event.value
                 )
             }
 
-            is  AddEditOrderEvent.ChangeMarkingFocus -> {
+            is AddEditOrderEvent.ChangeMarkingFocus -> {
                 _orderMark.value = orderMark.value.copy(
                     isHintVisible = !event.focusState.isFocused && orderMark.value.title.isBlank()
+                )
+            }
+
+            is AddEditOrderEvent.EnteredClient -> {
+                _client.value = client.value.copy(
+                    title = event.value
+                )
+
+            }
+
+            is AddEditOrderEvent.ChangeClientFocus -> {
+                _client.value = client.value.copy(
+                    isHintVisible = !event.focusState.isFocused && client.value.title.isBlank()
                 )
             }
 
@@ -123,7 +162,8 @@ class AddEditOrderViewModel @Inject constructor(
                                 orderMark = orderMark.value.title,
                                 timestamp = System.currentTimeMillis(),
                                 color = orderColor.value,
-                                onGoing = true
+                                onGoing = true,
+                                client = currentClient
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveOrder)
@@ -140,7 +180,7 @@ class AddEditOrderViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String): UiEvent()
-        object SaveOrder: UiEvent()
+        data class ShowSnackbar(val message: String) : UiEvent()
+        object SaveOrder : UiEvent()
     }
 }

@@ -13,7 +13,9 @@ import androidx.navigation.navArgument
 import com.example.bricorder.add_edit_order.components.AddEditOrderScreen
 import com.example.bricorder.orders.composables.OrderScreen
 import com.example.bricorder.components.screens.View
+import com.example.bricorder.orders.composables.OrderDetailScreen
 import com.example.bricorder.ui.BricOrderTheme
+import com.google.firestore.v1.StructuredQuery.Order
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,6 +57,20 @@ class MainActivity : ComponentActivity() {
                             AddEditOrderScreen(navController = navController, orderColor = color)
 
                         }
+//                        composable(
+//                            route = View.OrderDetailScreen.route + "?order={orderId}",
+//                            arguments = listOf(
+//                                navArgument(
+//                                    name = "orderId"
+//                                ) {
+//                                    type = NavType.IntType
+//                                    defaultValue = -1
+//                                },
+//                            )
+//                        ) {
+//                            val orderId = it.arguments?.getInt("orderId") ?: -1
+//                            OrderDetailScreen(navController = navController, orderId = orderId)
+//                        }
                     }
                 }
             }
