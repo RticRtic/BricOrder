@@ -8,7 +8,14 @@ sealed class AddEditOrderEvent {
     data class EnteredDescription(val value: String) : AddEditOrderEvent()
     data class EnteredMarking(val value: String) : AddEditOrderEvent()
     data class ChangeColor(val color: Int) : AddEditOrderEvent()
-    data class EnteredClient(val value: String) : AddEditOrderEvent()
+    data class EnteredClient(
+        val clientName: String,
+        val clientAdress: String,
+        val clientPhone: String,
+        val clientEmail: String,
+        val id: Int
+
+    ) : AddEditOrderEvent()
 
     data class ChangeTitleFocus(val focusState: FocusState) : AddEditOrderEvent()
     data class ChangeDescriptionFocus(val focusState: FocusState) : AddEditOrderEvent()

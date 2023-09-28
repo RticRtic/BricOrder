@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.bricorder.model.Client
 import com.example.bricorder.model.Order
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -166,13 +167,25 @@ fun AddEditOrderScreen(
             )
             Spacer(modifier = Modifier.height(36.dp))
             TransparentHintTextField(
-                text = clientState.title,
+                text = clientState.name,
                 hint = clientState.description,
                 isHintVisible = clientState.isHintVisible,
                 onValueChange = {
-                    viewModel.onEvent(AddEditOrderEvent.EnteredClient(it))
+                    viewModel.onEvent(AddEditOrderEvent.EnteredClient(it, clientState.address, clientState.phone, clientState.email, clientState.id ?: 0))
                 },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))
+                },
+            )
 
+            Spacer(modifier = Modifier.height(36.dp))
+            TransparentHintTextField(
+                text = clientState.address,
+                hint = clientState.description,
+                isHintVisible = clientState.isHintVisible,
+                onValueChange = {
+                    viewModel.onEvent(AddEditOrderEvent.EnteredClient(clientState.name, it, clientState.phone, clientState.email, clientState.id ?: 0))
+                },
                 onFocusChange = {
                     viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))
                 },

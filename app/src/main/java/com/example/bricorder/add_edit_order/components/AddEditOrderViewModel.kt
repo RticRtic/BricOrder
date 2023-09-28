@@ -1,5 +1,6 @@
 package com.example.bricorder.add_edit_order.components
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+
+val TAG = "!!!"
 
 @HiltViewModel
 class AddEditOrderViewModel @Inject constructor(
@@ -46,12 +49,16 @@ class AddEditOrderViewModel @Inject constructor(
 
 
     private val _client = mutableStateOf(
-       OrderTextFieldState(
-           description = "Client Name"
+       Janne(
+              name = "Client Name",
+              address = "Client Address",
+              phone = "Client Phone",
+              email = "Client Email",
+              id = 0
        )
     )
 
-    val client: State<OrderTextFieldState> = _client
+    val client: State<Janne> = _client
 
     private val startColor: Int = 0
 
@@ -85,16 +92,21 @@ class AddEditOrderViewModel @Inject constructor(
                             isHintVisible = false
                         )
                         _client.value = client.value.copy(
-                            title = order.client?.name ?: "",
+                            name = order.client?.name ?: "",
+                            address = order.client?.address ?: "",
+                            phone = order.client?.phone ?: "",
+                            email = order.client?.email ?: "",
+                            id = order.client?.id ?: 0,
                             isHintVisible = false
                         )
                         _orderColor.intValue = order.color
-                        currentClient = order.client
+
                     }
                 }
             }
         }
     }
+
 
     fun onEvent(event: AddEditOrderEvent) {
         when (event) {
@@ -136,14 +148,26 @@ class AddEditOrderViewModel @Inject constructor(
 
             is AddEditOrderEvent.EnteredClient -> {
                 _client.value = client.value.copy(
-                    title = event.value
+                    name = event.clientName,
+                    address = event.clientAdress,
+                    phone = event.clientPhone,
+                    email = event.clientEmail,
+                    id = event.id
                 )
+                currentClient = Client(
+                    name = event.clientName,
+                    address = event.clientAdress,
+                    phone = event.clientPhone,
+                    email = event.clientEmail,
+                    id = event.id
+                )
+                Log.d(TAG, " CURRENT CLIENT: $currentClient: ")
 
             }
 
             is AddEditOrderEvent.ChangeClientFocus -> {
                 _client.value = client.value.copy(
-                    isHintVisible = !event.focusState.isFocused && client.value.title.isBlank()
+                    isHintVisible = !event.focusState.isFocused && client.value.name.isBlank()
                 )
             }
 
