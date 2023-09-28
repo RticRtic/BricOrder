@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -170,21 +171,37 @@ fun AddEditOrderScreen(
                 text = clientState.name,
                 hint = clientState.description,
                 isHintVisible = clientState.isHintVisible,
-                onValueChange = {
-                    viewModel.onEvent(AddEditOrderEvent.EnteredClient(it, clientState.address, clientState.phone, clientState.email, clientState.id ?: 0))
+                onValueChange = { clientName ->
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClient(
+                            clientName,
+                            clientState.address,
+                            clientState.phone,
+                            clientState.email,
+                            clientState.id ?: 0
+                        )
+                    )
                 },
                 onFocusChange = {
                     viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))
                 },
             )
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(2.dp))
             TransparentHintTextField(
                 text = clientState.address,
                 hint = clientState.description,
                 isHintVisible = clientState.isHintVisible,
-                onValueChange = {
-                    viewModel.onEvent(AddEditOrderEvent.EnteredClient(clientState.name, it, clientState.phone, clientState.email, clientState.id ?: 0))
+                onValueChange = { clientAddress ->
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClient(
+                            clientState.name,
+                            clientAddress,
+                            clientState.phone,
+                            clientState.email,
+                            clientState.id ?: 0
+                        )
+                    )
                 },
                 onFocusChange = {
                     viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))

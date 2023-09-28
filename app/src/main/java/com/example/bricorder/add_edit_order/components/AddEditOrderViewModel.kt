@@ -161,8 +161,6 @@ class AddEditOrderViewModel @Inject constructor(
                     email = event.clientEmail,
                     id = event.id
                 )
-                Log.d(TAG, " CURRENT CLIENT: $currentClient: ")
-
             }
 
             is AddEditOrderEvent.ChangeClientFocus -> {
