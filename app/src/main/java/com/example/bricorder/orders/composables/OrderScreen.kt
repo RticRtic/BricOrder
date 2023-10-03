@@ -36,6 +36,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bricorder.components.screens.View
 import com.example.bricorder.components.screens.composables.OrderSection
@@ -119,9 +120,20 @@ fun OrderScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
+//                                navController.navigate(
+//                                    View.OrderDetailScreen.route + "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}"
+//
+//                                )
                                 navController.navigate(
                                     View.AddEditOrderScreen.route +
-                                            "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}"
+                                            "?orderId=${order.id}" +
+                                            "&orderTitle=${order.title}" +
+                                            "&orderDescription=${order.description}" +
+                                            "&orderColor=${order.color}" +
+                                            "&clientName=${order.client?.name}" +
+                                            "&clientAddress=${order.client?.address}" +
+                                            "&clientEmail=${order.client?.email}" +
+                                            "&clientPhone=${order.client?.phone}"
                                 )
                             },
                         onDelete = {

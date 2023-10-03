@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.bricorder.model.Client
 import com.example.bricorder.model.Order
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,6 +40,10 @@ fun AddEditOrderScreen(
     val titleState = viewModel.orderTitle.value
     val orderDescriptionState = viewModel.orderDescription.value
     val orderMarkState = viewModel.orderMark.value
+    val clientStateName = viewModel.clientName.value
+    val clientStateAddress = viewModel.clientAddress.value
+    val clientStatePhone = viewModel.clientPhone.value
+    val clientStateEmail = viewModel.clientEmail.value
 
     val scaffoldState = rememberScaffoldState()
 
@@ -50,12 +56,13 @@ fun AddEditOrderScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is AddEditOrderViewModel.UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
+
                 is AddEditOrderViewModel.UiEvent.SaveOrder -> {
                     navController.navigateUp()
                 }
@@ -162,6 +169,70 @@ fun AddEditOrderScreen(
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.height(36.dp))
+            TransparentHintTextField(
+                text = clientStateName.title,
+                hint = clientStateName.description,
+                isHintVisible = clientStateName.isHintVisible,
+                singleLine = true,
+                onValueChange = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientName(it)
+                    )
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientNameFocus(it))
+                },
+
+                )
+            Spacer(modifier = Modifier.height(16.dp))
+            TransparentHintTextField(
+                text = clientStateAddress.title,
+                hint = clientStateAddress.description,
+                singleLine = true,
+                isHintVisible = clientStateAddress.isHintVisible,
+                onValueChange = {
+                    viewModel.onEvent(
+                       AddEditOrderEvent.EnteredClientAddress(it)
+                    )
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientAddressFocus(it))
+                },
+
+                )
+            Spacer(modifier = Modifier.height(16.dp))
+            TransparentHintTextField(
+                text = clientStateEmail.title,
+                hint = clientStateEmail.description,
+                isHintVisible = clientStateEmail.isHintVisible,
+                singleLine = true,
+                onValueChange = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientEmail(it)
+                    )
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientEmailFocus(it))
+                },
+
+                )
+            Spacer(modifier = Modifier.height(16.dp))
+            TransparentHintTextField(
+                text = clientStatePhone.title,
+                hint = clientStatePhone.description,
+                isHintVisible = clientStatePhone.isHintVisible,
+                singleLine = true,
+                onValueChange = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientPhone(it)
+                    )
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientPhoneFocus(it))
+                },
+
+                )
         }
     }
 }
