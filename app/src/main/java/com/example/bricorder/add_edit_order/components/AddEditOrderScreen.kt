@@ -40,7 +40,10 @@ fun AddEditOrderScreen(
     val titleState = viewModel.orderTitle.value
     val orderDescriptionState = viewModel.orderDescription.value
     val orderMarkState = viewModel.orderMark.value
-    val clientState = viewModel.client.value
+    val clientStateName = viewModel.clientName.value
+    val clientStateAddress = viewModel.clientAddress.value
+    val clientStatePhone = viewModel.clientPhone.value
+    val clientStateEmail = viewModel.clientEmail.value
 
     val scaffoldState = rememberScaffoldState()
 
@@ -168,45 +171,68 @@ fun AddEditOrderScreen(
             )
             Spacer(modifier = Modifier.height(36.dp))
             TransparentHintTextField(
-                text = clientState.name,
-                hint = clientState.description,
-                isHintVisible = clientState.isHintVisible,
-                onValueChange = { clientName ->
+                text = clientStateName.title,
+                hint = clientStateName.description,
+                isHintVisible = clientStateName.isHintVisible,
+                singleLine = true,
+                onValueChange = {
                     viewModel.onEvent(
-                        AddEditOrderEvent.EnteredClient(
-                            clientName,
-                            clientState.address,
-                            clientState.phone,
-                            clientState.email,
-                            clientState.id ?: 0
-                        )
+                        AddEditOrderEvent.EnteredClientName(it)
                     )
                 },
                 onFocusChange = {
-                    viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientNameFocus(it))
                 },
-            )
 
-            Spacer(modifier = Modifier.height(2.dp))
+                )
+            Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
-                text = clientState.address,
-                hint = clientState.description,
-                isHintVisible = clientState.isHintVisible,
-                onValueChange = { clientAddress ->
+                text = clientStateAddress.title,
+                hint = clientStateAddress.description,
+                singleLine = true,
+                isHintVisible = clientStateAddress.isHintVisible,
+                onValueChange = {
                     viewModel.onEvent(
-                        AddEditOrderEvent.EnteredClient(
-                            clientState.name,
-                            clientAddress,
-                            clientState.phone,
-                            clientState.email,
-                            clientState.id ?: 0
-                        )
+                       AddEditOrderEvent.EnteredClientAddress(it)
                     )
                 },
                 onFocusChange = {
-                    viewModel.onEvent(AddEditOrderEvent.ChangeClientFocus(it))
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientAddressFocus(it))
                 },
-            )
+
+                )
+            Spacer(modifier = Modifier.height(16.dp))
+            TransparentHintTextField(
+                text = clientStateEmail.title,
+                hint = clientStateEmail.description,
+                isHintVisible = clientStateEmail.isHintVisible,
+                singleLine = true,
+                onValueChange = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientEmail(it)
+                    )
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientEmailFocus(it))
+                },
+
+                )
+            Spacer(modifier = Modifier.height(16.dp))
+            TransparentHintTextField(
+                text = clientStatePhone.title,
+                hint = clientStatePhone.description,
+                isHintVisible = clientStatePhone.isHintVisible,
+                singleLine = true,
+                onValueChange = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientPhone(it)
+                    )
+                },
+                onFocusChange = {
+                    viewModel.onEvent(AddEditOrderEvent.ChangeClientPhoneFocus(it))
+                },
+
+                )
         }
     }
 }

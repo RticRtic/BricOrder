@@ -163,7 +163,23 @@ fun OrderItem(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = order.client?.address ?: "No Client Adress",
+                        text = order.client?.address ?: "No Client Address",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = order.client?.email ?: "No Client Email",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = order.client?.phone ?: "No Client PhoneNumber",
                         style = MaterialTheme.typography.body1,
                         color = MaterialTheme.colors.onSurface,
                         maxLines = 1,

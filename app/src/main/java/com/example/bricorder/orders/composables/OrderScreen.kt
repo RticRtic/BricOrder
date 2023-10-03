@@ -126,7 +126,14 @@ fun OrderScreen(
 //                                )
                                 navController.navigate(
                                     View.AddEditOrderScreen.route +
-                                            "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}"
+                                            "?orderId=${order.id}" +
+                                            "&orderTitle=${order.title}" +
+                                            "&orderDescription=${order.description}" +
+                                            "&orderColor=${order.color}" +
+                                            "&clientName=${order.client?.name}" +
+                                            "&clientAddress=${order.client?.address}" +
+                                            "&clientEmail=${order.client?.email}" +
+                                            "&clientPhone=${order.client?.phone}"
                                 )
                             },
                         onDelete = {

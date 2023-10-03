@@ -1,6 +1,5 @@
 package com.example.bricorder.add_edit_order.components
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -18,8 +17,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-val TAG = "!!!"
-
 @HiltViewModel
 class AddEditOrderViewModel @Inject constructor(
     private val orderUseCases: OrderUseCases,
@@ -31,34 +28,49 @@ class AddEditOrderViewModel @Inject constructor(
             description = "Project Name"
         )
     )
-    val orderTitle: State<OrderTextFieldState> = _orderTitle
-
     private val _orderDescription = mutableStateOf(
         OrderTextFieldState(
             description = "Description"
         )
     )
-    val orderDescription: State<OrderTextFieldState> = _orderDescription
 
     private val _orderMark = mutableStateOf(
         OrderTextFieldState(
             description = "Order-Number"
         )
     )
-    val orderMark: State<OrderTextFieldState> = _orderMark
 
-
-    private val _client = mutableStateOf(
-       Janne(
-              name = "Client Name",
-              address = "Client Address",
-              phone = "Client Phone",
-              email = "Client Email",
-              id = 0
-       )
+    private val _clientName = mutableStateOf(
+        OrderTextFieldState(
+            description = "Client Name"
+        )
     )
 
-    val client: State<Janne> = _client
+    private val _clientAddress = mutableStateOf(
+        OrderTextFieldState(
+            description = "Client Address"
+        )
+    )
+
+    private val _clientPhone = mutableStateOf(
+        OrderTextFieldState(
+            description = "Client Phone"
+        )
+    )
+
+    private val _clientEmail = mutableStateOf(
+        OrderTextFieldState(
+            description = "Client Email"
+        )
+    )
+    val orderTitle: State<OrderTextFieldState> = _orderTitle
+    val orderDescription: State<OrderTextFieldState> = _orderDescription
+    val orderMark: State<OrderTextFieldState> = _orderMark
+    val clientName: State<OrderTextFieldState> = _clientName
+    val clientAddress: State<OrderTextFieldState> = _clientAddress
+    val clientPhone: State<OrderTextFieldState> = _clientPhone
+    val clientEmail: State<OrderTextFieldState> = _clientEmail
+
 
     private val startColor: Int = 0
 
@@ -69,7 +81,7 @@ class AddEditOrderViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentOrderId: Int? = null
-    private var currentClient: Client? = null
+    private var updatedClient: Client? = null
 
 
     init {
@@ -91,14 +103,23 @@ class AddEditOrderViewModel @Inject constructor(
                             title = order.orderMark,
                             isHintVisible = false
                         )
-                        _client.value = client.value.copy(
-                            name = order.client?.name ?: "",
-                            address = order.client?.address ?: "",
-                            phone = order.client?.phone ?: "",
-                            email = order.client?.email ?: "",
-                            id = order.client?.id ?: 0,
+                        _clientName.value = clientName.value.copy(
+                            title = order.client?.name ?: "",
                             isHintVisible = false
                         )
+                        _clientAddress.value = clientAddress.value.copy(
+                            title = order.client?.address ?: "",
+                            isHintVisible = false
+                        )
+                        _clientPhone.value = clientPhone.value.copy(
+                            title = order.client?.phone ?: "",
+                            isHintVisible = false
+                        )
+                        _clientEmail.value = clientEmail.value.copy(
+                            title = order.client?.email ?: "",
+                            isHintVisible = false
+                        )
+
                         _orderColor.intValue = order.color
 
                     }
@@ -146,26 +167,51 @@ class AddEditOrderViewModel @Inject constructor(
                 )
             }
 
-            is AddEditOrderEvent.EnteredClient -> {
-                _client.value = client.value.copy(
-                    name = event.clientName,
-                    address = event.clientAdress,
-                    phone = event.clientPhone,
-                    email = event.clientEmail,
-                    id = event.id
-                )
-                currentClient = Client(
-                    name = event.clientName,
-                    address = event.clientAdress,
-                    phone = event.clientPhone,
-                    email = event.clientEmail,
-                    id = event.id
+            is AddEditOrderEvent.EnteredClientName -> {
+                _clientName.value = clientName.value.copy(
+                    title = event.value
                 )
             }
 
-            is AddEditOrderEvent.ChangeClientFocus -> {
-                _client.value = client.value.copy(
-                    isHintVisible = !event.focusState.isFocused && client.value.name.isBlank()
+            is AddEditOrderEvent.EnteredClientAddress -> {
+                _clientAddress.value = clientAddress.value.copy(
+                    title = event.value
+                )
+            }
+
+            is AddEditOrderEvent.EnteredClientPhone -> {
+                _clientPhone.value = clientPhone.value.copy(
+                    title = event.value
+                )
+            }
+
+            is AddEditOrderEvent.EnteredClientEmail -> {
+                _clientEmail.value = clientEmail.value.copy(
+                    title = event.value
+                )
+            }
+
+            is AddEditOrderEvent.ChangeClientNameFocus -> {
+                _clientName.value = clientName.value.copy(
+                    isHintVisible = !event.focusState.isFocused && clientName.value.title.isBlank()
+                )
+            }
+
+            is AddEditOrderEvent.ChangeClientAddressFocus -> {
+                _clientAddress.value = clientAddress.value.copy(
+                    isHintVisible = !event.focusState.isFocused && clientAddress.value.title.isBlank()
+                )
+            }
+
+            is AddEditOrderEvent.ChangeClientPhoneFocus -> {
+                _clientPhone.value = clientPhone.value.copy(
+                    isHintVisible = !event.focusState.isFocused && clientPhone.value.title.isBlank()
+                )
+            }
+
+            is AddEditOrderEvent.ChangeClientEmailFocus -> {
+                _clientEmail.value = clientEmail.value.copy(
+                    isHintVisible = !event.focusState.isFocused && clientEmail.value.title.isBlank()
                 )
             }
 
@@ -176,6 +222,12 @@ class AddEditOrderViewModel @Inject constructor(
             is AddEditOrderEvent.SaveOrder -> {
                 viewModelScope.launch {
                     try {
+                        updatedClient = Client(
+                            name = clientName.value.title,
+                            address = clientAddress.value.title,
+                            phone = clientPhone.value.title,
+                            email = clientEmail.value.title
+                        )
                         orderUseCases.addOrder(
                             Order(
                                 id = currentOrderId,
@@ -185,7 +237,7 @@ class AddEditOrderViewModel @Inject constructor(
                                 timestamp = System.currentTimeMillis(),
                                 color = orderColor.value,
                                 onGoing = true,
-                                client = currentClient
+                                client = updatedClient
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveOrder)
