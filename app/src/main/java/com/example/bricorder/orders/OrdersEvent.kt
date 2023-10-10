@@ -10,5 +10,6 @@ sealed class OrdersEvent {
     data class ToggleOnGoingColor(val order: Order): OrdersEvent()
     object RestoreOrder: OrdersEvent()
     object ToggleOrderSection: OrdersEvent()
+    object ToggleClientInfo: OrdersEvent()
 
 }

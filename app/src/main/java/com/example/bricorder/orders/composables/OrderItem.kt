@@ -1,4 +1,4 @@
-import androidx.compose.foundation.BorderStroke
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +11,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,15 +20,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -44,8 +40,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bricorder.orders.OrdersEvent
 import com.example.bricorder.orders.OrdersViewModel
+import com.example.bricorder.orders.composables.ClientInfo
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -57,10 +53,10 @@ fun OrderItem(
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
     onGoing: () -> Unit,
-    ) {
-
+) {
     Box(
         modifier = modifier
+
     ) {
         Canvas(
             modifier = Modifier.matchParentSize()
@@ -93,6 +89,15 @@ fun OrderItem(
                 )
             }
         }
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 30.dp),
+            horizontalArrangement = Arrangement.End) {
+            Text(
+                text = currentTimeMillisToReadableFormat(order.timestamp),
+                style = MaterialTheme.typography.subtitle2,
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -123,9 +128,7 @@ fun OrderItem(
                                 color = Color.Transparent,
                                 shape = CircleShape
                             )
-                            .clickable {
-                                onGoing()
-                            }
+                            .clickable { onGoing() }
 
                     )
                     Spacer(modifier = Modifier.width(4.dp))
@@ -144,49 +147,8 @@ fun OrderItem(
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis
             )
-
             Spacer(modifier = Modifier.height(10.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(15.dp))
-                    .background(Color.LightGray)
-            ) {
-                Column(modifier = Modifier.padding(8.dp)) {
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = order.client?.name ?: "No Client Name",
-                        style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = order.client?.address ?: "No Client Address",
-                        style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = order.client?.email ?: "No Client Email",
-                        style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = order.client?.phone ?: "No Client PhoneNumber",
-                        style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
+            ClientInfo(order = order)
             Spacer(modifier = Modifier.height(10.dp))
         }
         Text(
@@ -196,13 +158,13 @@ fun OrderItem(
             text = "Mark: " + order.orderMark,
             style = MaterialTheme.typography.subtitle2
         )
-        Text(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(end = 30.dp, bottom = 2.dp),
-            text = currentTimeMillisToReadableFormat(order.timestamp),
-            style = MaterialTheme.typography.subtitle2,
-        )
+//        Text(
+//            modifier = Modifier
+//                .align(Alignment.TopEnd)
+//                .padding(end = 30.dp, bottom = 2.dp),
+//            text = currentTimeMillisToReadableFormat(order.timestamp),
+//            style = MaterialTheme.typography.subtitle2,
+//        )
         if (!order.onGoing) IconButton(
             modifier = Modifier.align(Alignment.BottomEnd),
             onClick = onDelete,
