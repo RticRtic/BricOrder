@@ -20,6 +20,8 @@ data class Order(
     @ColumnInfo(name = "on_going")
     var onGoing: Boolean,
     val client: Client? = null,
+    @ColumnInfo(name = "show_client_info")
+    var showClientInfo: Boolean = false,
 //    val constructor: Constructor?,
 //    val worker: Worker,
 //    val address: String,

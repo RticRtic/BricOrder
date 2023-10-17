@@ -2,6 +2,7 @@ package com.example.bricorder.orders.composables
 
 import OrderItem
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -151,6 +152,10 @@ fun OrderScreen(
                         onGoing = {
                             viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
                             order.onGoing = viewModel.state.value.isOnGoing
+                        },
+                        showClientInfo = {
+                            viewModel.onEvent(OrdersEvent.ToggleClientInfo(order))
+                            order.showClientInfo = viewModel.state.value.isClientInfoVisible
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))

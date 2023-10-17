@@ -82,6 +82,7 @@ class AddEditOrderViewModel @Inject constructor(
 
     private var currentOrderId: Int? = null
     private var updatedClient: Client? = null
+    private var currentClientId: Int? = null
 
 
     init {
@@ -90,6 +91,7 @@ class AddEditOrderViewModel @Inject constructor(
                 viewModelScope.launch {
                     orderUseCases.getOrder(orderId)?.also { order ->
                         currentOrderId = order.id
+                        currentClientId = order.client?.id
 
                         _orderTitle.value = orderTitle.value.copy(
                             title = order.title,
@@ -226,7 +228,8 @@ class AddEditOrderViewModel @Inject constructor(
                             name = clientName.value.title,
                             address = clientAddress.value.title,
                             phone = clientPhone.value.title,
-                            email = clientEmail.value.title
+                            email = clientEmail.value.title,
+                            id = currentClientId
                         )
                         orderUseCases.addOrder(
                             Order(
@@ -237,7 +240,7 @@ class AddEditOrderViewModel @Inject constructor(
                                 timestamp = System.currentTimeMillis(),
                                 color = orderColor.value,
                                 onGoing = true,
-                                client = updatedClient
+                                client = updatedClient,
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveOrder)

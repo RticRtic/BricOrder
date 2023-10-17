@@ -1,5 +1,6 @@
 package com.example.bricorder.local_repo
 
+import com.example.bricorder.model.Client
 import com.example.bricorder.model.Order
 import kotlinx.coroutines.flow.Flow
 
@@ -24,5 +25,9 @@ class LocalRepositoryImpl(
 
     override suspend fun updateOngoingColor(id: Int, onGoing: Boolean) {
         return orderDao.onGoingColor(id, onGoing)
+    }
+
+    override suspend fun updateShowClientInfo(id: Int, showClientInfo: Boolean) {
+        return orderDao.showClientInfo(id, showClientInfo)
     }
 }

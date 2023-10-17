@@ -39,8 +39,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bricorder.orders.OrdersViewModel
 import com.example.bricorder.orders.composables.ClientInfo
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -53,6 +51,7 @@ fun OrderItem(
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
     onGoing: () -> Unit,
+    showClientInfo: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -148,7 +147,7 @@ fun OrderItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(10.dp))
-            ClientInfo(order = order)
+            ClientInfo(order = order, showClientInfo = showClientInfo)
             Spacer(modifier = Modifier.height(10.dp))
         }
         Text(

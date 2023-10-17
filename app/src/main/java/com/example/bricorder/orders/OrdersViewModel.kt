@@ -1,5 +1,6 @@
 package com.example.bricorder.orders
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -71,8 +72,10 @@ class OrdersViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     isClientInfoVisible = !state.value.isClientInfoVisible
                 )
+                viewModelScope.launch {
+                    event.order.id?.let { orderUseCases.toggleShowClientInfo(it, state.value.isClientInfoVisible) }
+                }
             }
-
         }
     }
 

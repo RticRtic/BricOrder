@@ -36,6 +36,7 @@ import com.example.bricorder.orders.OrdersViewModel
 fun ClientInfo(
     viewModel: OrdersViewModel = hiltViewModel(),
     order: Order,
+    showClientInfo: () -> Unit,
 ) {
     val scale by animateFloatAsState(if (viewModel.state.value.isClientInfoVisible) 0.9f else 1f,
         label = ""
@@ -46,7 +47,7 @@ fun ClientInfo(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(15.dp))
             .background(if (viewModel.state.value.isClientInfoVisible) Color.LightGray else Color.LightGray)
-            .clickable { viewModel.onEvent(OrdersEvent.ToggleClientInfo) }
+            .clickable { showClientInfo()}
             .scale(scale)
     ) {
         if (viewModel.state.value.isClientInfoVisible)
@@ -91,7 +92,7 @@ fun ClientInfo(
 
             ) {
                 Text(
-                    text = "More Info",
+                    text = order.client?.name + " " +"...",
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onSurface,
                     maxLines = 1,
