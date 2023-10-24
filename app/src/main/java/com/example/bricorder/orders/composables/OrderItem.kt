@@ -147,7 +147,7 @@ fun OrderItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(10.dp))
-            ClientInfo(order = order, showClientInfo = showClientInfo)
+            ClientInfo(order = order)
             Spacer(modifier = Modifier.height(10.dp))
         }
         Text(

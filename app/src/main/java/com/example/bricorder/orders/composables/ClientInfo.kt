@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -43,12 +44,13 @@ val TAG = "!!!"
 fun ClientInfo(
     viewModel: OrdersViewModel = hiltViewModel(),
     order: Order,
-    showClientInfo: (Boolean) -> Unit,
 ) {
     val scale by animateFloatAsState(
         if (order.showClientInfo) 0.9f else 1f,
         label = ""
     )
+
+    val showClientInfo = remember { mutableStateOf(false) }
 
 
     Box(
@@ -56,10 +58,10 @@ fun ClientInfo(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(15.dp))
             .background(if (order.showClientInfo) Color.LightGray else Color.LightGray)
-            .clickable { showClientInfo(!order.showClientInfo) }
+            .clickable { showClientInfo.value = !showClientInfo.value }
             .scale(scale)
     ) {
-        if (order.showClientInfo)
+        if (showClientInfo.value)
             Column(modifier = Modifier.padding(8.dp)) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
