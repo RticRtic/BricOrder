@@ -153,10 +153,6 @@ fun OrderScreen(
                             viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
                             order.onGoing = viewModel.state.value.isOnGoing
                         },
-                        showClientInfo = {
-                            viewModel.onEvent(OrdersEvent.ToggleClientInfo(order))
-                            order.showClientInfo = viewModel.state.value.isClientInfoVisible
-                        }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }

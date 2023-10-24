@@ -26,6 +26,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -50,9 +52,10 @@ fun OrderItem(
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
-    onGoing: () -> Unit,
-    showClientInfo: (Boolean) -> Unit,
+    onGoing: () -> Unit
 ) {
+    val expanded = remember { mutableStateOf(false) }
+
     Box(
         modifier = modifier
 
@@ -147,7 +150,7 @@ fun OrderItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(10.dp))
-            ClientInfo(order = order, showClientInfo = showClientInfo)
+            ClientInfo(order = order)
             Spacer(modifier = Modifier.height(10.dp))
         }
         Text(
