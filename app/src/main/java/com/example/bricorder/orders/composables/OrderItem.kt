@@ -51,7 +51,7 @@ fun OrderItem(
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
     onGoing: () -> Unit,
-    showClientInfo: () -> Unit,
+    showClientInfo: (Boolean) -> Unit,
 ) {
     Box(
         modifier = modifier
