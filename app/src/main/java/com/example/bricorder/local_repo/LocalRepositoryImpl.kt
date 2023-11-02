@@ -26,8 +26,4 @@ class LocalRepositoryImpl(
     override suspend fun updateOngoingColor(id: Int, onGoing: Boolean) {
         return orderDao.onGoingColor(id, onGoing)
     }
-
-    override suspend fun updateShowClientInfo(id: Int, showClientInfo: Boolean) {
-        return orderDao.showClientInfo(id, showClientInfo)
-    }
 }

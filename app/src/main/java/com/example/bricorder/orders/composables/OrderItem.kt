@@ -51,7 +51,6 @@ fun OrderItem(
     cutCornerSize: Dp = 30.dp,
     onDelete: () -> Unit,
     onGoing: () -> Unit,
-    showClientInfo: (Boolean) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -154,7 +153,7 @@ fun OrderItem(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = 8.dp, bottom = 2.dp),
-            text = "Mark: " + order.orderMark,
+            text = "Order: " + order.orderMark,
             style = MaterialTheme.typography.subtitle2
         )
 //        Text(

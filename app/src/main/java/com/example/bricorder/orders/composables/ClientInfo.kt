@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bricorder.R
 import com.example.bricorder.model.Order
 import com.example.bricorder.orders.OrdersEvent
 import com.example.bricorder.orders.OrdersViewModel
@@ -45,19 +46,19 @@ fun ClientInfo(
     viewModel: OrdersViewModel = hiltViewModel(),
     order: Order,
 ) {
-    val scale by animateFloatAsState(
-        if (order.showClientInfo) 0.9f else 1f,
-        label = ""
-    )
 
     val showClientInfo = remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        if (showClientInfo.value) 0.9f else 1f,
+        label = ""
+    )
 
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(15.dp))
-            .background(if (order.showClientInfo) Color.LightGray else Color.LightGray)
+            .background(if (showClientInfo.value) Color.White else Color.White)
             .clickable { showClientInfo.value = !showClientInfo.value }
             .scale(scale)
     ) {
@@ -124,6 +125,5 @@ fun ClientInfo(
                     modifier = Modifier.padding(8.dp)
                 )
             }
-        Log.d(TAG, "ClientInfo: ${order.showClientInfo}")
     }
 }

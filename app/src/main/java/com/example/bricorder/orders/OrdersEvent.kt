@@ -8,7 +8,6 @@ sealed class OrdersEvent {
     data class Direction(val orderDirection: OrderDirection): OrdersEvent()
     data class Delete(val order: Order): OrdersEvent()
     data class ToggleOnGoingColor(val order: Order): OrdersEvent()
-    data class ToggleClientInfo(val order: Order): OrdersEvent()
     object RestoreOrder: OrdersEvent()
     object ToggleOrderSection: OrdersEvent()
 

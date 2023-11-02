@@ -67,15 +67,6 @@ class OrdersViewModel @Inject constructor(
                     event.order.id?.let { orderUseCases.toggleOnGoingColor(it, state.value.isOnGoing) }
                 }
             }
-
-            is OrdersEvent.ToggleClientInfo -> {
-                _state.value = state.value.copy(
-                    isClientInfoVisible = !state.value.isClientInfoVisible
-                )
-                viewModelScope.launch {
-                    event.order.id?.let { orderUseCases.toggleShowClientInfo(it, state.value.isClientInfoVisible) }
-                }
-            }
         }
     }
 
