@@ -1,5 +1,6 @@
 package com.example.bricorder.local_repo
 
+import com.example.bricorder.model.Client
 import com.example.bricorder.model.Order
 import kotlinx.coroutines.flow.Flow
 

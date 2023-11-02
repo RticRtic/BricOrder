@@ -3,7 +3,6 @@ package com.example.bricorder.orders
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bricorder.model.Order
@@ -68,7 +67,6 @@ class OrdersViewModel @Inject constructor(
                     event.order.id?.let { orderUseCases.toggleOnGoingColor(it, state.value.isOnGoing) }
                 }
             }
-
         }
     }
 

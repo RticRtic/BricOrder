@@ -1,5 +1,6 @@
 package com.example.bricorder.model
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -32,7 +33,7 @@ data class Order(
             BabyBlue,
             RedPink,
             LightGreen,
-            Violet
+            Violet,
         )
     }
 }

@@ -27,4 +27,5 @@ interface OrderDao {
     @Query("UPDATE `order` SET on_going = :onGoing WHERE id = :id")
     suspend fun onGoingColor(id: Int, onGoing: Boolean)
 
+
 }
