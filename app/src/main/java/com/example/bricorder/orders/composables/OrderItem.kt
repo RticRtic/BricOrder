@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -36,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,110 +55,131 @@ fun OrderItem(
     onDelete: () -> Unit,
     onGoing: () -> Unit,
 ) {
-    Box(
-        modifier = modifier
 
-    ) {
-        Canvas(
-            modifier = Modifier.matchParentSize()
+    Row() {
+        Box(
+            Modifier
+                .size(height = 100.dp, width = 80.dp)
+                .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
+                .background(Color.Transparent)
+                .align(Alignment.CenterVertically)
         ) {
-            val clipPath = Path().apply {
-                lineTo(size.width - cutCornerSize.toPx(), 0f)
-                lineTo(size.width, cutCornerSize.toPx())
-                lineTo(size.width, size.height)
-                lineTo(0f, size.height)
-                close()
-            }
-            clipPath(clipPath) {
-                drawRoundRect(
-                    color = Color(order.color),
-                    size = size,
-                    cornerRadius = CornerRadius(cornerRadius.toPx())
-                )
-                drawRoundRect(
-                    color = Color(
-                        androidx.core.graphics.ColorUtils.blendARGB(
-                            if (order.onGoing) Color.Transparent.toArgb() else Color.Red.toArgb(),
-                            Color.Transparent.toArgb(),
-                            0.3f
-                        )
-                    ),
-                    topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
-                    size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),
-                    cornerRadius = CornerRadius(cornerRadius.toPx())
-
-                )
-            }
-        }
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(end = 30.dp),
-            horizontalArrangement = Arrangement.End) {
-            Text(
-                text = currentTimeMillisToReadableFormat(order.timestamp),
-                style = MaterialTheme.typography.subtitle2,
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .padding(end = 32.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+            Column(Modifier.align(Alignment.Center)) {
                 Text(
-                    text = order.title,
-                    style = MaterialTheme.typography.h6,
-                    color = MaterialTheme.colors.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    modifier = Modifier
+                        .vertical()
+                        .rotate(-90f),
+                    text = currentTimeMillisToReadableFormat(order.timestamp),
+                    style = MaterialTheme.typography.subtitle2
                 )
+            }
 
-                Row {
-                    Box(
-                        modifier = Modifier
-                            .size(20.dp)
-                            .shadow(15.dp, CircleShape)
-                            .clip(CircleShape)
-                            .background(if (order.onGoing) Color.Green else Color.Red)
-                            .border(
-                                width = 3.dp,
-                                color = Color.Transparent,
-                                shape = CircleShape
-                            )
-                            .clickable { onGoing() }
+        }
+        Spacer(Modifier.padding(1.dp))
+        Box(
+            modifier = modifier
 
+        ) {
+            Canvas(
+                modifier = Modifier.matchParentSize()
+            ) {
+                val clipPath = Path().apply {
+                    lineTo(size.width - cutCornerSize.toPx(), 0f)
+                    lineTo(size.width, cutCornerSize.toPx())
+                    lineTo(size.width, size.height)
+                    lineTo(0f, size.height)
+                    close()
+                }
+                clipPath(clipPath) {
+                    drawRoundRect(
+                        color = Color(order.color),
+                        size = size,
+                        cornerRadius = CornerRadius(cornerRadius.toPx())
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        if (order.onGoing) "On Going" else "Cancelled",
-                        style = TextStyle(fontFamily = FontFamily.Serif)
+                    drawRoundRect(
+                        color = Color(
+                            androidx.core.graphics.ColorUtils.blendARGB(
+                                if (order.onGoing) Color.Transparent.toArgb() else Color.Red.toArgb(),
+                                Color.Transparent.toArgb(),
+                                0.3f
+                            )
+                        ),
+                        topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
+                        size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),
+                        cornerRadius = CornerRadius(cornerRadius.toPx())
+
                     )
                 }
-
             }
-            Spacer(modifier = Modifier.height(2.dp))
+//        Row(modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(end = 30.dp),
+//            horizontalArrangement = Arrangement.End) {
+//            Text(
+//                text = currentTimeMillisToReadableFormat(order.timestamp),
+//                style = MaterialTheme.typography.subtitle2,
+//            )
+//        }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .padding(end = 32.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = order.title,
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    Row {
+                        Box(
+                            modifier = Modifier
+                                .size(20.dp)
+                                .shadow(15.dp, CircleShape)
+                                .clip(CircleShape)
+                                .background(if (order.onGoing) Color.Green else Color.Red)
+                                .border(
+                                    width = 3.dp,
+                                    color = Color.Transparent,
+                                    shape = CircleShape
+                                )
+                                .clickable { onGoing() }
+
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            if (order.onGoing) "On Going" else "Cancelled",
+                            style = TextStyle(fontFamily = FontFamily.Serif)
+                        )
+                    }
+
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = order.description,
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.onSurface,
+                    maxLines = 10,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                ClientInfo(order = order)
+                Spacer(modifier = Modifier.height(10.dp))
+            }
             Text(
-                text = order.description,
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface,
-                maxLines = 10,
-                overflow = TextOverflow.Ellipsis
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 8.dp, bottom = 2.dp),
+                text = "Order: " + order.orderMark,
+                style = MaterialTheme.typography.subtitle2
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            ClientInfo(order = order)
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-        Text(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 8.dp, bottom = 2.dp),
-            text = "Order: " + order.orderMark,
-            style = MaterialTheme.typography.subtitle2
-        )
 //        Text(
 //            modifier = Modifier
 //                .align(Alignment.TopEnd)
@@ -163,20 +187,33 @@ fun OrderItem(
 //            text = currentTimeMillisToReadableFormat(order.timestamp),
 //            style = MaterialTheme.typography.subtitle2,
 //        )
-        if (!order.onGoing) IconButton(
-            modifier = Modifier.align(Alignment.BottomEnd),
-            onClick = onDelete,
-        ) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Delete order",
-                tint = MaterialTheme.colors.onSurface
-            )
+            if (!order.onGoing) IconButton(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                onClick = onDelete,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete order",
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
         }
+
     }
 }
 
 private fun currentTimeMillisToReadableFormat(currentTimeMillis: Long): String {
-    val format = SimpleDateFormat("dd/MM/yyyy ", Locale.getDefault())
+    val format = SimpleDateFormat("EEE, MMM d, ", Locale.getDefault())
     return format.format(currentTimeMillis)
 }
+
+fun Modifier.vertical() =
+    layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        layout(placeable.height, placeable.width) {
+            placeable.place(
+                x = -(placeable.width / 2 - placeable.height / 2),
+                y = -(placeable.height / 2 - placeable.width / 2)
+            )
+        }
+    }
