@@ -61,6 +61,7 @@ import com.example.bricorder.components.screens.View
 import com.example.bricorder.components.screens.composables.OrderSection
 import com.example.bricorder.orders.OrdersEvent
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -109,7 +110,10 @@ fun OrderScreen(
                     .padding(16.dp)
             ) {
 
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Box(
                         modifier = Modifier
                             .size(50.dp)
@@ -121,10 +125,20 @@ fun OrderScreen(
                             contentScale = ContentScale.Fit
                         )
                     }
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 6.dp, top = 16.dp)) {
-                        Text("Jesper Söderling")
+                    Text(
+                        "Jesper Söderling",
+                        Modifier.padding(top = 16.dp, end = 160.dp),
+                        style = MaterialTheme.typography.subtitle2
+                    )
+                    IconButton(
+                        onClick = {
+                            viewModel.onEvent(OrdersEvent.ToggleOrderSection)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "Sort"
+                        )
                     }
                 }
                 Spacer(Modifier.height(10.dp))
@@ -143,16 +157,6 @@ fun OrderScreen(
                         text = "Orders",
                         style = MaterialTheme.typography.h4
                     )
-                    IconButton(
-                        onClick = {
-                            viewModel.onEvent(OrdersEvent.ToggleOrderSection)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Sort"
-                        )
-                    }
                 }
                 AnimatedVisibility(
                     visible = state.isOrderSectionVisible,

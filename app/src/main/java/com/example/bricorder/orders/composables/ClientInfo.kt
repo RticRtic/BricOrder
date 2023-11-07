@@ -57,8 +57,8 @@ fun ClientInfo(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(15.dp))
-            .background(if (showClientInfo.value) Color.White else Color.White)
+            .clip(shape = RoundedCornerShape(10.dp))
+            .background(if (showClientInfo.value) Color.White.copy(alpha = 0.5f) else Color.White.copy(alpha = 0.3f))
             .clickable { showClientInfo.value = !showClientInfo.value }
             .scale(scale)
     ) {
