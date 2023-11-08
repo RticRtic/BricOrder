@@ -29,6 +29,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
@@ -45,6 +48,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bricorder.orders.composables.ClientInfo
+import com.example.bricorder.orders.composables.DefaultAlertDialog
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -55,7 +59,6 @@ fun OrderItem(
     onDelete: () -> Unit,
     onGoing: () -> Unit,
 ) {
-
     Row() {
         Box(
             Modifier
@@ -75,7 +78,8 @@ fun OrderItem(
             modifier = modifier
 
         ) {
-            Card(modifier = Modifier,
+            Card(
+                modifier = Modifier,
                 border = BorderStroke(1.dp, Color.Black),
                 backgroundColor = Color(order.color),
                 elevation = 10.dp,
@@ -114,13 +118,16 @@ fun OrderItem(
                                     .clickable { onGoing() }
 
                             )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                if (order.onGoing) "On Going" else "Cancelled",
-                                style = TextStyle(fontFamily = FontFamily.Serif)
-                            )
+                            if (!order.onGoing) {
+                                DefaultAlertDialog(
+                                    title = order.title,
+                                    message = "Delete this order?",
+                                    onDismiss = { onGoing() },
+                                    onConfirm = { onDelete() },
+                                    icon = Icons.Default.Info,
+                                )
+                            }
                         }
-
                     }
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
@@ -141,16 +148,6 @@ fun OrderItem(
                     text = "Order: " + order.orderMark,
                     style = MaterialTheme.typography.subtitle2
                 )
-                if (!order.onGoing) IconButton(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    onClick = onDelete,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete order",
-                        tint = MaterialTheme.colors.onSurface
-                    )
-                }
             }
         }
     }

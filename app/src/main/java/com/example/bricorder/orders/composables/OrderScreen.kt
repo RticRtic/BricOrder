@@ -88,7 +88,7 @@ fun OrderScreen(
                 onClick = {
                     navController.navigate(View.AddEditOrderScreen.route)
                 },
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = MaterialTheme.colors.background,
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -141,6 +141,23 @@ fun OrderScreen(
                         )
                     }
                 }
+                AnimatedVisibility(
+                    visible = state.isOrderSectionVisible,
+                    enter = fadeIn() + slideInVertically(),
+                    exit = fadeOut() + slideOutVertically()
+                ) {
+                    OrderSection(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        orderDirection = state.orderDirection,
+                        onOrderChange = {
+                            viewModel.onEvent(OrdersEvent.Direction(it))
+                        }
+
+                    )
+                }
+
                 Spacer(Modifier.height(10.dp))
                 Divider(
                     startIndent = 8.dp,
@@ -156,22 +173,6 @@ fun OrderScreen(
                     Text(
                         text = "Orders",
                         style = MaterialTheme.typography.h4
-                    )
-                }
-                AnimatedVisibility(
-                    visible = state.isOrderSectionVisible,
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
-                ) {
-                    OrderSection(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        orderDirection = state.orderDirection,
-                        onOrderChange = {
-                            viewModel.onEvent(OrdersEvent.Direction(it))
-                        }
-
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
