@@ -3,6 +3,7 @@ package com.example.bricorder.add_edit_order.components
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -40,6 +41,8 @@ class AddEditOrderViewModel @Inject constructor(
         )
     )
 
+    private val _selectedColor = mutableStateOf(Color.Unspecified)
+
     private val _clientName = mutableStateOf(
         OrderTextFieldState(
             description = "Client Name"
@@ -66,6 +69,7 @@ class AddEditOrderViewModel @Inject constructor(
     val orderTitle: State<OrderTextFieldState> = _orderTitle
     val orderDescription: State<OrderTextFieldState> = _orderDescription
     val orderMark: State<OrderTextFieldState> = _orderMark
+    val selectedColor: State<Color> = _selectedColor
     val clientName: State<OrderTextFieldState> = _clientName
     val clientAddress: State<OrderTextFieldState> = _clientAddress
     val clientPhone: State<OrderTextFieldState> = _clientPhone
@@ -219,6 +223,7 @@ class AddEditOrderViewModel @Inject constructor(
 
             is AddEditOrderEvent.ChangeColor -> {
                 _orderColor.intValue = event.color
+                _selectedColor.value = Color(event.color)
             }
 
             is AddEditOrderEvent.SaveOrder -> {

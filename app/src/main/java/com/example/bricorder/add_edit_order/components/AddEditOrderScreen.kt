@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.alpha
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.bricorder.model.Client
@@ -125,20 +126,28 @@ fun AddEditOrderScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TransparentHintTextField(
+            AddEditOrderCard(
+                backgroundColor = Color(viewModel.selectedColor.value.toArgb()),
                 text = titleState.title,
                 hint = titleState.description,
-                onValueChange = {
-                    viewModel.onEvent(AddEditOrderEvent.EnteredTitle(it))
-                },
-                onFocusChange = {
-                    viewModel.onEvent(AddEditOrderEvent.ChangeTitleFocus(it))
-                },
+                onValueChange = { viewModel.onEvent(AddEditOrderEvent.EnteredTitle(it)) },
+                onFocusChange = {viewModel.onEvent(AddEditOrderEvent.ChangeTitleFocus(it))},
                 isHintVisible = titleState.isHintVisible,
-                singleLine = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier.fillMaxWidth()
             )
+//            TransparentHintTextField(
+//                text = titleState.title,
+//                hint = titleState.description,
+//                onValueChange = {
+//                    viewModel.onEvent(AddEditOrderEvent.EnteredTitle(it))
+//                },
+//                onFocusChange = {
+//                    viewModel.onEvent(AddEditOrderEvent.ChangeTitleFocus(it))
+//                },
+//                isHintVisible = titleState.isHintVisible,
+//                singleLine = true,
+//                textStyle = MaterialTheme.typography.h5,
+//                modifier = Modifier.fillMaxWidth()
+//            )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
                 text = orderDescriptionState.title,
