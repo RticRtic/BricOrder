@@ -61,6 +61,7 @@ import com.example.bricorder.components.screens.View
 import com.example.bricorder.components.screens.composables.OrderSection
 import com.example.bricorder.orders.OrdersEvent
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -87,7 +88,7 @@ fun OrderScreen(
                 onClick = {
                     navController.navigate(View.AddEditOrderScreen.route)
                 },
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = MaterialTheme.colors.background,
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -109,7 +110,10 @@ fun OrderScreen(
                     .padding(16.dp)
             ) {
 
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Box(
                         modifier = Modifier
                             .size(50.dp)
@@ -121,27 +125,10 @@ fun OrderScreen(
                             contentScale = ContentScale.Fit
                         )
                     }
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 6.dp, top = 16.dp)) {
-                        Text("Jesper Söderling")
-                    }
-                }
-                Spacer(Modifier.height(10.dp))
-                Divider(
-                    startIndent = 8.dp,
-                    thickness = 1.dp,
-                    color = Color.Black,
-                )
-                Spacer(Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
                     Text(
-                        text = "Orders",
-                        style = MaterialTheme.typography.h4
+                        "Jesper Söderling",
+                        Modifier.padding(top = 16.dp, end = 160.dp),
+                        style = MaterialTheme.typography.subtitle2
                     )
                     IconButton(
                         onClick = {
@@ -168,6 +155,24 @@ fun OrderScreen(
                             viewModel.onEvent(OrdersEvent.Direction(it))
                         }
 
+                    )
+                }
+
+                Spacer(Modifier.height(10.dp))
+                Divider(
+                    startIndent = 8.dp,
+                    thickness = 1.dp,
+                    color = Color.Black,
+                )
+                Spacer(Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Orders",
+                        style = MaterialTheme.typography.h4
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
