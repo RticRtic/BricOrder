@@ -26,12 +26,12 @@ class AddEditOrderViewModel @Inject constructor(
 
     private val _orderTitle = mutableStateOf(
         OrderTextFieldState(
-            description = "Project Name"
+            description = "What's the Project Name?"
         )
     )
     private val _orderDescription = mutableStateOf(
         OrderTextFieldState(
-            description = "Description"
+            description = "Add Description"
         )
     )
 
@@ -41,7 +41,7 @@ class AddEditOrderViewModel @Inject constructor(
         )
     )
 
-    private val _selectedColor = mutableStateOf(Color.Unspecified)
+    private val _selectedColor = mutableStateOf(Color.White)
 
     private val _clientName = mutableStateOf(
         OrderTextFieldState(
@@ -69,16 +69,13 @@ class AddEditOrderViewModel @Inject constructor(
     val orderTitle: State<OrderTextFieldState> = _orderTitle
     val orderDescription: State<OrderTextFieldState> = _orderDescription
     val orderMark: State<OrderTextFieldState> = _orderMark
-    val selectedColor: State<Color> = _selectedColor
+    val startColor: State<Color> = _selectedColor
     val clientName: State<OrderTextFieldState> = _clientName
     val clientAddress: State<OrderTextFieldState> = _clientAddress
     val clientPhone: State<OrderTextFieldState> = _clientPhone
     val clientEmail: State<OrderTextFieldState> = _clientEmail
 
-
-    private val startColor: Int = 0
-
-    private val _orderColor = mutableIntStateOf(Order.orderColors[startColor].toArgb())
+    private val _orderColor = mutableIntStateOf(_selectedColor.value.toArgb())
     val orderColor: State<Int> = _orderColor
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -223,7 +220,6 @@ class AddEditOrderViewModel @Inject constructor(
 
             is AddEditOrderEvent.ChangeColor -> {
                 _orderColor.intValue = event.color
-                _selectedColor.value = Color(event.color)
             }
 
             is AddEditOrderEvent.SaveOrder -> {
