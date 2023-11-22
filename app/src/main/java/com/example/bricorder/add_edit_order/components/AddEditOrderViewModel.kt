@@ -3,6 +3,7 @@ package com.example.bricorder.add_edit_order.components
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -25,12 +26,12 @@ class AddEditOrderViewModel @Inject constructor(
 
     private val _orderTitle = mutableStateOf(
         OrderTextFieldState(
-            description = "Project Name"
+            description = "What's the Project Name?"
         )
     )
     private val _orderDescription = mutableStateOf(
         OrderTextFieldState(
-            description = "Description"
+            description = "Add Description"
         )
     )
 
@@ -39,6 +40,8 @@ class AddEditOrderViewModel @Inject constructor(
             description = "Order-Number"
         )
     )
+
+    private val _selectedColor = mutableStateOf(Color.White)
 
     private val _clientName = mutableStateOf(
         OrderTextFieldState(
@@ -66,15 +69,13 @@ class AddEditOrderViewModel @Inject constructor(
     val orderTitle: State<OrderTextFieldState> = _orderTitle
     val orderDescription: State<OrderTextFieldState> = _orderDescription
     val orderMark: State<OrderTextFieldState> = _orderMark
+    val startColor: State<Color> = _selectedColor
     val clientName: State<OrderTextFieldState> = _clientName
     val clientAddress: State<OrderTextFieldState> = _clientAddress
     val clientPhone: State<OrderTextFieldState> = _clientPhone
     val clientEmail: State<OrderTextFieldState> = _clientEmail
 
-
-    private val startColor: Int = 0
-
-    private val _orderColor = mutableIntStateOf(Order.orderColors[startColor].toArgb())
+    private val _orderColor = mutableIntStateOf(_selectedColor.value.toArgb())
     val orderColor: State<Int> = _orderColor
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()

@@ -21,12 +21,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -58,7 +63,11 @@ fun ClientInfo(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(10.dp))
-            .background(if (showClientInfo.value) Color.White.copy(alpha = 0.5f) else Color.White.copy(alpha = 0.3f))
+            .background(
+                if (showClientInfo.value) Color.White.copy(alpha = 0.5f) else Color.White.copy(
+                    alpha = 0.3f
+                )
+            )
             .clickable { showClientInfo.value = !showClientInfo.value }
             .scale(scale)
     ) {
@@ -71,53 +80,75 @@ fun ClientInfo(
                         contentDescription = "Close",
                     )
                 }
-                Text(
-                    text = order.client?.name ?: "No Client Name",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Client-Name")
+                    Spacer(modifier = Modifier.padding(start = 10.dp))
+                    Text(
+                        text = order.client?.name ?: "No Client Name",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = order.client?.address ?: "No Client Address",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = "Client-Address")
+                    Spacer(modifier = Modifier.padding(start = 10.dp))
+                    Text(
+                        text = order.client?.address ?: "No Client Address",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = order.client?.email ?: "No Client Email",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Icon(imageVector = Icons.Default.Email, contentDescription = "Client-Email")
+                    Spacer(modifier = Modifier.padding(start = 10.dp))
+                    Text(
+                        text = order.client?.email ?: "No Client Email",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = order.client?.phone ?: "No Client PhoneNumber",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Icon(imageVector = Icons.Default.Phone, contentDescription = "Client-Phone")
+                    Spacer(modifier = Modifier.padding(start = 10.dp))
+                    Text(
+                        text = order.client?.phone ?: "No Client Phone",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
         else
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
 
             ) {
-                Text(
-                    text = order.client?.name + " " + "...",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(8.dp)
-                )
-
+                Row() {
+                    Spacer(modifier = Modifier.padding(start = 2.dp))
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "Client-Person",
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                    )
+                    Text(
+                        text = order.client?.name + " " + "...",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = "More Info",
