@@ -79,9 +79,7 @@ fun AddEditOrderScreen(
                 .background(silverWhite)
                 .padding(16.dp)
         ) {
-            IconButton(onClick = { /*TODO*/ }) {
 
-            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -160,23 +158,59 @@ fun AddEditOrderScreen(
                 backgroundColor = Color.LightGray,
                 clientText = clientStateName.title,
                 clientHint = clientStateName.description,
-                onValueChangeClient = {viewModel.onEvent(AddEditOrderEvent.EnteredClientName(it))},
-                onFocusChangeClient = {viewModel.onEvent(AddEditOrderEvent.ChangeClientNameFocus(it))},
+                onValueChangeClient = { viewModel.onEvent(AddEditOrderEvent.EnteredClientName(it)) },
+                onFocusChangeClient = { viewModel.onEvent(AddEditOrderEvent.ChangeClientNameFocus(it)) },
                 isHintVisibleClient = clientStateName.isHintVisible,
                 clientAddressText = clientStateAddress.title,
                 clientAddressHint = clientStateAddress.description,
-                onValueChangeClientAddress = {viewModel.onEvent(AddEditOrderEvent.EnteredClientAddress(it))},
-                onFocusChangeClientAddress = {viewModel.onEvent(AddEditOrderEvent.ChangeClientAddressFocus(it))},
+                onValueChangeClientAddress = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientAddress(
+                            it
+                        )
+                    )
+                },
+                onFocusChangeClientAddress = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.ChangeClientAddressFocus(
+                            it
+                        )
+                    )
+                },
                 isHintVisibleClientAddress = clientStateAddress.isHintVisible,
                 clientEmailText = clientStateEmail.title,
                 clientEmailHint = clientStateEmail.description,
-                onValueChangeClientEmail = {viewModel.onEvent(AddEditOrderEvent.EnteredClientEmail(it))},
-                onFocusChangeClientEmail = {viewModel.onEvent(AddEditOrderEvent.ChangeClientEmailFocus(it))},
+                onValueChangeClientEmail = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientEmail(
+                            it
+                        )
+                    )
+                },
+                onFocusChangeClientEmail = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.ChangeClientEmailFocus(
+                            it
+                        )
+                    )
+                },
                 isHintVisibleClientEmail = clientStateEmail.isHintVisible,
                 clientPhoneText = clientStatePhone.title,
                 clientPhoneHint = clientStatePhone.description,
-                onValueChangeClientPhone = {viewModel.onEvent(AddEditOrderEvent.EnteredClientPhone(it))},
-                onFocusChangeClientPhone = {viewModel.onEvent(AddEditOrderEvent.ChangeClientPhoneFocus(it))},
+                onValueChangeClientPhone = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.EnteredClientPhone(
+                            it
+                        )
+                    )
+                },
+                onFocusChangeClientPhone = {
+                    viewModel.onEvent(
+                        AddEditOrderEvent.ChangeClientPhoneFocus(
+                            it
+                        )
+                    )
+                },
                 isHintVisibleClientPhone = clientStatePhone.isHintVisible,
             )
             Spacer(modifier = Modifier.height(16.dp))

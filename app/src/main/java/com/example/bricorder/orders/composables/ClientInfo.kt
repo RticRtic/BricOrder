@@ -134,6 +134,7 @@ fun ClientInfo(
 
             ) {
                 Row() {
+                    Spacer(modifier = Modifier.padding(start = 2.dp))
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = "Client-Person",
