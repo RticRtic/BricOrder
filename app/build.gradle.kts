@@ -94,6 +94,7 @@ dependencies {
 
     //Navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation("androidx.compose.material:material:1.5.4")
 
     //Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
