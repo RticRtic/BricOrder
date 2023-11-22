@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AddEditOrderCard(
+fun AddEditOrderProjectCard(
     modifier: Modifier,
     backgroundColor: Color,
     titleText: String,
