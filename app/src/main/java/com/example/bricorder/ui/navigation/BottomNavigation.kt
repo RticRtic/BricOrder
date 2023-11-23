@@ -5,32 +5,35 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun Navigation(navController: NavController) {
+fun Navigation(
+    navController: NavController,
+    currentScreen: NavDirection = NavDirection.Screen(NavType.OrderScreen),
+    onScreenChange: (NavDirection) -> Unit,
+) {
     val items = listOf(
         View.OrderScreen,
         View.AddEditOrderScreen
     )
     BottomNavigation(
-        modifier = Modifier.height(50.dp)
+        modifier = Modifier
+            .height(50.dp)
             .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp)),
         backgroundColor = Color.LightGray,
         contentColor = Color.Black,
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+//        val navBackStackEntry by navController.currentBackStackEntryAsState()
+//        val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(item.icon, contentDescription = item.title) },
@@ -38,20 +41,19 @@ fun Navigation(navController: NavController) {
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(alpha = 0.4f),
                 alwaysShowLabel = true,
-                selected = currentRoute == item.route,
+                selected = currentScreen.navType == item.route,
                 onClick = {
-                    navController.navigate(item.route) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
+                    onScreenChange(NavDirection.Screen(currentScreen.navType))
 
-            )
+//                    navController.navigate(item.route) {
+//                        navController.graph.startDestinationRoute?.let { route ->
+//                            popUpTo(route) {
+//                                saveState = true
+//                            }
+//                        }
+//                        launchSingleTop = true
+//                        restoreState = true
+                })
         }
     }
 }

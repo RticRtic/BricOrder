@@ -25,7 +25,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -33,14 +32,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import com.example.bricorder.orders.OrdersViewModel
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,21 +48,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.rememberAsyncImagePainter
 import com.example.bricorder.R
-import com.example.bricorder.ui.navigation.View
 import com.example.bricorder.components.screens.composables.OrderSection
 import com.example.bricorder.orders.OrdersEvent
+import com.example.bricorder.ui.navigation.NavStateViewModel
+import com.example.bricorder.ui.navigation.NavDirection
+import com.example.bricorder.ui.navigation.NavEvent
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun OrderScreen(
     navController: NavController,
-    viewModel: OrdersViewModel = hiltViewModel()
+    ordersViewModel: OrdersViewModel = hiltViewModel(),
+    navStateViewModel: NavStateViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
+    val orderState = ordersViewModel.state.value
+    val navState = navStateViewModel.navState.value
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val silverWhite = colorResource(id = R.color.silver_white)
@@ -127,7 +127,7 @@ fun OrderScreen(
                     )
                     IconButton(
                         onClick = {
-                            viewModel.onEvent(OrdersEvent.ToggleOrderSection)
+                            ordersViewModel.onEvent(OrdersEvent.ToggleOrderSection)
                         }
                     ) {
                         Icon(
@@ -137,7 +137,7 @@ fun OrderScreen(
                     }
                 }
                 AnimatedVisibility(
-                    visible = state.isOrderSectionVisible,
+                    visible = orderState.isOrderSectionVisible,
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
                 ) {
@@ -145,9 +145,9 @@ fun OrderScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp),
-                        orderDirection = state.orderDirection,
+                        orderDirection = orderState.orderDirection,
                         onOrderChange = {
-                            viewModel.onEvent(OrdersEvent.Direction(it))
+                            ordersViewModel.onEvent(OrdersEvent.Direction(it))
                         }
 
                     )
@@ -172,39 +172,40 @@ fun OrderScreen(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(state.orders) { order ->
+                    items(orderState.orders) { order ->
                         OrderItem(
                             order = order,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    navController.navigate(
-                                        View.AddEditOrderScreen.route +
-                                                "?orderId=${order.id}" +
-                                                "&orderTitle=${order.title}" +
-                                                "&orderDescription=${order.description}" +
-                                                "&orderColor=${order.color}" +
-                                                "&clientName=${order.client?.name}" +
-                                                "&clientAddress=${order.client?.address}" +
-                                                "&clientEmail=${order.client?.email}" +
-                                                "&clientPhone=${order.client?.phone}"
-                                    )
+//                                    navController.navigate(
+//                                        View.AddEditOrderScreen.route +
+//                                                "?orderId=${order.id}" +
+//                                                "&orderTitle=${order.title}" +
+//                                                "&orderDescription=${order.description}" +
+//                                                "&orderColor=${order.color}" +
+//                                                "&clientName=${order.client?.name}" +
+//                                                "&clientAddress=${order.client?.address}" +
+//                                                "&clientEmail=${order.client?.email}" +
+//                                                "&clientPhone=${order.client?.phone}"
+//                                    )
+
                                 },
                             onDelete = {
-                                viewModel.onEvent(OrdersEvent.Delete(order))
+                                ordersViewModel.onEvent(OrdersEvent.Delete(order))
                                 scope.launch {
                                     val result = scaffoldState.snackbarHostState.showSnackbar(
                                         message = "Order ${order.title} deleted",
                                         actionLabel = "Undo"
                                     )
                                     if (result == SnackbarResult.ActionPerformed) {
-                                        viewModel.onEvent(OrdersEvent.RestoreOrder)
+                                        ordersViewModel.onEvent(OrdersEvent.RestoreOrder)
                                     }
                                 }
                             },
                             onGoing = {
-                                viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
-                                order.onGoing = viewModel.state.value.isOnGoing
+                                ordersViewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
+                                order.onGoing = ordersViewModel.state.value.isOnGoing
                             },
                         )
                         Spacer(modifier = Modifier.height(16.dp))

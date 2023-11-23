@@ -11,12 +11,12 @@ import com.example.bricorder.orders.composables.OrderScreen
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = View.OrderScreen.route) {
-        composable(View.OrderScreen.route) {
+    NavHost(navController = navController, startDestination = View.OrderScreen.route.toString()) {
+        composable(View.OrderScreen.route.toString()) {
             OrderScreen(navController = navController)
         }
         composable(
-            View.AddEditOrderScreen.route + "?orderId={orderId}${"&orderColor={orderColor}"}",
+            View.AddEditOrderScreen.route.toString() + "?orderId={orderId}${"&orderColor={orderColor}"}",
             arguments = listOf(
                 navArgument(
                     name = "orderId"
