@@ -1,5 +1,6 @@
 package com.example.bricorder.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
@@ -32,8 +33,6 @@ fun Navigation(
         backgroundColor = Color.LightGray,
         contentColor = Color.Black,
     ) {
-//        val navBackStackEntry by navController.currentBackStackEntryAsState()
-//        val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(item.icon, contentDescription = item.title) },
@@ -41,18 +40,18 @@ fun Navigation(
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(alpha = 0.4f),
                 alwaysShowLabel = true,
-                selected = currentScreen.navType == item.route,
+                selected = currentScreen.navType == item.route.navType,
                 onClick = {
-                    onScreenChange(NavDirection.Screen(currentScreen.navType))
-
-//                    navController.navigate(item.route) {
-//                        navController.graph.startDestinationRoute?.let { route ->
-//                            popUpTo(route) {
-//                                saveState = true
-//                            }
-//                        }
-//                        launchSingleTop = true
-//                        restoreState = true
+                    onScreenChange(item.route)
+                    navController.navigate(item.route.toString()) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                saveState = true
+                            }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 })
         }
     }
