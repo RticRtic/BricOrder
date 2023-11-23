@@ -42,7 +42,7 @@ fun Navigation(
                 alwaysShowLabel = true,
                 selected = currentScreen.navType == item.route.navType,
                 onClick = {
-                    onScreenChange(item.route)
+                    onScreenChange(currentScreen.copy(navType = item.route.navType))
                     navController.navigate(item.route.toString()) {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {

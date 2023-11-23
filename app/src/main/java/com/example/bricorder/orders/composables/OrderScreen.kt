@@ -2,6 +2,7 @@ package com.example.bricorder.orders.composables
 
 import OrderItem
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -55,6 +56,8 @@ import com.example.bricorder.orders.OrdersEvent
 import com.example.bricorder.ui.navigation.NavStateViewModel
 import com.example.bricorder.ui.navigation.NavDirection
 import com.example.bricorder.ui.navigation.NavEvent
+import com.example.bricorder.ui.navigation.NavType
+import com.example.bricorder.ui.navigation.View
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -65,7 +68,7 @@ fun OrderScreen(
     navStateViewModel: NavStateViewModel = hiltViewModel()
 ) {
     val orderState = ordersViewModel.state.value
-    val navState = navStateViewModel.navState.value
+    var navState = navStateViewModel.navState.value
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val silverWhite = colorResource(id = R.color.silver_white)
@@ -178,17 +181,19 @@ fun OrderScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-//                                    navController.navigate(
-//                                        View.AddEditOrderScreen.route +
-//                                                "?orderId=${order.id}" +
-//                                                "&orderTitle=${order.title}" +
-//                                                "&orderDescription=${order.description}" +
-//                                                "&orderColor=${order.color}" +
-//                                                "&clientName=${order.client?.name}" +
-//                                                "&clientAddress=${order.client?.address}" +
-//                                                "&clientEmail=${order.client?.email}" +
-//                                                "&clientPhone=${order.client?.phone}"
-//                                    )
+                                    navController.navigate(
+                                        View.AddEditOrderScreen.route.toString() +
+                                                "?orderId=${order.id}" +
+                                                "&orderTitle=${order.title}" +
+                                                "&orderDescription=${order.description}" +
+                                                "&orderColor=${order.color}" +
+                                                "&clientName=${order.client?.name}" +
+                                                "&clientAddress=${order.client?.address}" +
+                                                "&clientEmail=${order.client?.email}" +
+                                                "&clientPhone=${order.client?.phone}"
+                                    )
+
+                                    //Todo: Add navigation to AddEditOrderScreen
 
                                 },
                             onDelete = {

@@ -4,10 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-val TAG = "!!!"
 
 @HiltViewModel
 class NavStateViewModel @Inject constructor(
@@ -18,16 +19,14 @@ class NavStateViewModel @Inject constructor(
     fun onEvent(event: NavEvent) {
         when (event) {
             is NavEvent.Direction -> {
-                navigateToScreen(event.navDirection)
+               navigateToScreen(event.navDirection)
             }
         }
     }
 
-    private fun navigateToScreen(navDirection: NavDirection) {
+    fun navigateToScreen(navDirection: NavDirection) {
         _navState.value = navState.value.copy(
             navigation = navDirection
         )
-
-        Log.d(TAG, "navigateToScreen: ${navState.value.navigation.navType}")
     }
 }
