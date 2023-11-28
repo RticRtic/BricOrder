@@ -10,5 +10,4 @@ data class OrdersState(
     val orderDirection: OrderDirection = OrderDirection.Date(OrderType.Descending),
     val isOrderSectionVisible: Boolean = false,
     val isOnGoing: Boolean = true,
-    var isClientInfoVisible: Boolean = false,
 )

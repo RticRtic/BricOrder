@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,18 +25,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Colors
 import androidx.compose.material.Divider
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarResult
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -53,23 +48,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.bricorder.R
-import com.example.bricorder.components.screens.View
 import com.example.bricorder.components.screens.composables.OrderSection
 import com.example.bricorder.orders.OrdersEvent
+import com.example.bricorder.ui.navigation.NavStateViewModel
+import com.example.bricorder.ui.navigation.NavDirection
+import com.example.bricorder.ui.navigation.NavEvent
+import com.example.bricorder.ui.navigation.NavType
+import com.example.bricorder.ui.navigation.View
 import kotlinx.coroutines.launch
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun OrderScreen(
     navController: NavController,
-    viewModel: OrdersViewModel = hiltViewModel()
+    ordersViewModel: OrdersViewModel = hiltViewModel(),
+    navStateViewModel: NavStateViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
+    val orderState = ordersViewModel.state.value
+    var navState = navStateViewModel.navState.value
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val silverWhite = colorResource(id = R.color.silver_white)
@@ -81,21 +80,20 @@ fun OrderScreen(
             end = Offset(0f, 2000f)
         )
     }
-
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(View.AddEditOrderScreen.route)
-                },
-                backgroundColor = MaterialTheme.colors.background,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add Order"
-                )
-            }
-        },
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                onClick = {
+//                    navController.navigate(View.AddEditOrderScreen.route)
+//                },
+//                backgroundColor = MaterialTheme.colors.background,
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Add,
+//                    contentDescription = "Add Order"
+//                )
+//            }
+//        },
         scaffoldState = scaffoldState
 
     ) {
@@ -132,7 +130,7 @@ fun OrderScreen(
                     )
                     IconButton(
                         onClick = {
-                            viewModel.onEvent(OrdersEvent.ToggleOrderSection)
+                            ordersViewModel.onEvent(OrdersEvent.ToggleOrderSection)
                         }
                     ) {
                         Icon(
@@ -142,7 +140,7 @@ fun OrderScreen(
                     }
                 }
                 AnimatedVisibility(
-                    visible = state.isOrderSectionVisible,
+                    visible = orderState.isOrderSectionVisible,
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
                 ) {
@@ -150,9 +148,9 @@ fun OrderScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp),
-                        orderDirection = state.orderDirection,
+                        orderDirection = orderState.orderDirection,
                         onOrderChange = {
-                            viewModel.onEvent(OrdersEvent.Direction(it))
+                            ordersViewModel.onEvent(OrdersEvent.Direction(it))
                         }
 
                     )
@@ -177,18 +175,14 @@ fun OrderScreen(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(state.orders) { order ->
+                    items(orderState.orders) { order ->
                         OrderItem(
                             order = order,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-//                                navController.navigate(
-//                                    View.OrderDetailScreen.route + "?orderId=${order.id}&orderTitle=${order.title}&orderDescription=${order.description}&orderColor=${order.color}"
-//
-//                                )
                                     navController.navigate(
-                                        View.AddEditOrderScreen.route +
+                                        View.AddEditOrderScreen.route.toString() +
                                                 "?orderId=${order.id}" +
                                                 "&orderTitle=${order.title}" +
                                                 "&orderDescription=${order.description}" +
@@ -198,22 +192,25 @@ fun OrderScreen(
                                                 "&clientEmail=${order.client?.email}" +
                                                 "&clientPhone=${order.client?.phone}"
                                     )
+
+                                    //Todo: Add navigation to AddEditOrderScreen
+
                                 },
                             onDelete = {
-                                viewModel.onEvent(OrdersEvent.Delete(order))
+                                ordersViewModel.onEvent(OrdersEvent.Delete(order))
                                 scope.launch {
                                     val result = scaffoldState.snackbarHostState.showSnackbar(
                                         message = "Order ${order.title} deleted",
                                         actionLabel = "Undo"
                                     )
                                     if (result == SnackbarResult.ActionPerformed) {
-                                        viewModel.onEvent(OrdersEvent.RestoreOrder)
+                                        ordersViewModel.onEvent(OrdersEvent.RestoreOrder)
                                     }
                                 }
                             },
                             onGoing = {
-                                viewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
-                                order.onGoing = viewModel.state.value.isOnGoing
+                                ordersViewModel.onEvent(OrdersEvent.ToggleOnGoingColor(order))
+                                order.onGoing = ordersViewModel.state.value.isOnGoing
                             },
                         )
                         Spacer(modifier = Modifier.height(16.dp))

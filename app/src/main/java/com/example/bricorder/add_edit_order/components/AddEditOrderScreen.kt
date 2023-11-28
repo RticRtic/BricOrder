@@ -29,8 +29,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 
 fun AddEditOrderScreen(
-    navController: NavController,
-    orderColor: Int,
+    navController: NavController? = null,
+    orderColor: Int? = null,
     viewModel: AddEditOrderViewModel = hiltViewModel()
 ) {
     val titleState = viewModel.orderTitle.value
@@ -54,7 +54,7 @@ fun AddEditOrderScreen(
                 }
 
                 is AddEditOrderViewModel.UiEvent.SaveOrder -> {
-                    navController.navigateUp()
+                    navController?.navigateUp()
                 }
             }
         }
